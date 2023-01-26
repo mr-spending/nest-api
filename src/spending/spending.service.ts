@@ -50,7 +50,7 @@ export class SpendingService {
     id: string,
     updateSpendingDto: UpdateSpendingDto,
     userId: string,
-  ): Promise<SpendingDto[]> {
+  ): Promise<SpendingDto> {
     const result = (
       await this.store.collection('spending').doc(id).get()
     ).data();
@@ -60,7 +60,7 @@ export class SpendingService {
           .doc(id)
           .update(updateSpendingDto)
       : throwNewError();
-    return this.findAll(updateSpendingDto.userId);
+    return this.findOne(id, updateSpendingDto.userId);
   }
 
   async remove(id: string, userId: string): Promise<void> {

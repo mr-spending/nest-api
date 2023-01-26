@@ -43,7 +43,7 @@ export class SpendingController {
     @Req() req: { user: User },
     @Param('id') id: string,
     @Body() updateSpendingDto: UpdateSpendingDto,
-  ): Promise<SpendingDto[]> {
+  ): Promise<SpendingDto> {
     return this.spendingService.update(id, updateSpendingDto, req.user.userId);
   }
 
