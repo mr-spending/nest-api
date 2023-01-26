@@ -7,5 +7,5 @@ export class CategoryDto {
 
   @IsString()
   @IsNotEmpty()
-  amount: number;
+  name: string;
 }
