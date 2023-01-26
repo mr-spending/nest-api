@@ -19,7 +19,7 @@ export class SpendingDto {
 
   @Expose()
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   category: string;
 
   @Expose()
