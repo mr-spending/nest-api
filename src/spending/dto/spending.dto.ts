@@ -1,5 +1,6 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString, ValidateIf } from 'class-validator';
 import { Expose } from 'class-transformer';
+import { ApiModelPropertyOptional } from '@nestjs/swagger/dist/decorators/api-model-property.decorator';
 
 export class SpendingDto {
   @Expose()
@@ -61,4 +62,17 @@ export class SpendingDto {
   @IsString()
   @IsOptional()
   accountType: string;
+}
+
+export class GetSpendingsQueryDto {
+  @IsString()
+  @ApiModelPropertyOptional()
+  @IsOptional()
+  readonly startDate: string;
+
+  @IsString()
+  @ApiModelPropertyOptional()
+  @IsNotEmpty()
+  @ValidateIf((o) => o.startDate)
+  readonly endDate: string;
 }

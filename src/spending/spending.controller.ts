@@ -6,10 +6,11 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Req,
 } from '@nestjs/common';
 import { SpendingService } from './spending.service';
-import { SpendingDto } from './dto/spending.dto';
+import { GetSpendingsQueryDto, SpendingDto } from './dto/spending.dto';
 import { UpdateSpendingDto } from './dto/update-spending.dto';
 import { User } from '../shared/interfaces/user';
 
@@ -26,8 +27,11 @@ export class SpendingController {
   }
 
   @Get()
-  findAll(@Req() req: { user: User }): Promise<SpendingDto[]> {
-    return this.spendingService.findAll(req.user.userId);
+  findAll(
+    @Req() req: { user: User },
+    @Query() params: GetSpendingsQueryDto,
+  ): Promise<SpendingDto[]> {
+    return this.spendingService.findAll(req.user.userId, params);
   }
 
   @Get(':id')

@@ -1,18 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import * as firebase from 'firebase-admin';
 
-import { SpendingDto } from './dto/spending.dto';
+import { GetSpendingsQueryDto, SpendingDto } from './dto/spending.dto';
 import { UpdateSpendingDto } from './dto/update-spending.dto';
 import { FirebaseService } from '../firebase/firebase.service';
-import { throwNewError } from '../utils/helper.functions';
+import { sortArrayByProperty, throwNewError } from '../utils/helper.functions';
 import { plainToClass } from 'class-transformer';
+import { DirectionEnum, SortFieldEnum } from '../shared/enums/enums';
 
 @Injectable()
 export class SpendingService {
-  private auth: firebase.auth.Auth;
   private store: firebase.firestore.Firestore;
   constructor(private firebaseApp: FirebaseService) {
-    this.auth = firebaseApp.getAuth();
     this.store = firebaseApp.firestore();
   }
   async create(
@@ -27,14 +26,27 @@ export class SpendingService {
     return createSpendingDto;
   }
 
-  async findAll(userId: string): Promise<SpendingDto[]> {
+  async findAll(
+    userId: string,
+    params?: GetSpendingsQueryDto,
+  ): Promise<SpendingDto[]> {
     const spendings = [];
     (await this.store.collection('spending').get()).docs
       .filter((data) => data.get('userId') === userId)
+      .filter((data) =>
+        !params.startDate
+          ? true
+          : +params.startDate <= data.get('time') &&
+            data.get('time') <= +params.endDate,
+      )
       .map((data) => {
         spendings.push(data.data());
       });
-    return spendings;
+    return sortArrayByProperty(
+      spendings,
+      SortFieldEnum.Time,
+      DirectionEnum.Descending,
+    );
   }
 
   async findOne(id: string, userId: string): Promise<SpendingDto> {
