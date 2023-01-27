@@ -10,7 +10,7 @@ export class MonobankService {
   }
   async create(createMonobankDto: any) {
     return await this.store
-      .collection('spending')
+      .collection('bufferMonobank')
       .doc(createMonobankDto.data.statementItem)
       .set(createMonobankDto);
   }
