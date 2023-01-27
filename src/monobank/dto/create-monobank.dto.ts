@@ -1,30 +1,6 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { Expose, Type } from 'class-transformer';
 
-export class CreateMonobankDto {
-  @Expose()
-  @IsNotEmpty()
-  @Type(() => MonoBankDataDto)
-  data: MonoBankDataDto;
-
-  @Expose()
-  @IsString()
-  @IsNotEmpty()
-  type: string;
-}
-
-export class MonoBankDataDto {
-  @Expose()
-  @IsString()
-  @IsNotEmpty()
-  account: string;
-
-  @Expose()
-  @IsNotEmpty()
-  @Type(() => StatementItemDto)
-  statementItem: StatementItemDto;
-}
-
 export class StatementItemDto {
   @Expose()
   @IsString()
@@ -51,3 +27,28 @@ export class StatementItemDto {
   @IsOptional()
   currencyCode: number;
 }
+
+export class MonoBankDataDto {
+  @Expose()
+  @IsString()
+  @IsNotEmpty()
+  account: string;
+
+  @Expose()
+  @IsNotEmpty()
+  @Type(() => StatementItemDto)
+  statementItem: StatementItemDto;
+}
+
+export class CreateMonobankDto {
+  @Expose()
+  @IsNotEmpty()
+  @Type(() => MonoBankDataDto)
+  data: MonoBankDataDto;
+
+  @Expose()
+  @IsString()
+  @IsNotEmpty()
+  type: string;
+}
+
