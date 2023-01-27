@@ -9,6 +9,7 @@ export class MonobankService {
     this.store = firebaseApp.firestore();
   }
   async create(createMonobankDto: any) {
+    console.log(createMonobankDto);
     return await this.store
       .collection('bufferMonobank')
       .doc(createMonobankDto.data.statementItem)
