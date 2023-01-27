@@ -1,9 +1,4 @@
-import {
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod, } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PreAuthMiddleware } from './firebase/pre-auth.middleware';
@@ -24,11 +19,17 @@ import { MonobankModule } from './monobank/monobank.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-  // configure(consumer: MiddlewareConsumer): any {
-  //   consumer.apply(PreAuthMiddleware).forRoutes({
-  //     path: '/*',
-  //     method: RequestMethod.ALL,
-  //   });
-  // }
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): any {
+    consumer
+      .apply(PreAuthMiddleware)
+      .exclude({
+        path: '/monobank',
+        method: RequestMethod.ALL,
+      })
+      .forRoutes({
+        path: '/*',
+        method: RequestMethod.ALL,
+      });
+  }
 }
