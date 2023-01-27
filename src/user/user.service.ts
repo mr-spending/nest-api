@@ -5,6 +5,7 @@ import { FirebaseService } from '../firebase/firebase.service';
 import { throwNewError } from '../utils/helper.functions';
 import { user } from 'firebase-functions/lib/v1/providers/auth';
 import { plainToClass } from 'class-transformer';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -27,5 +28,11 @@ export class UserService {
     return result['id'] === userId
       ? plainToClass(UserDto, result)
       : throwNewError();
+  }
+
+  async update(id: string, payload: UpdateUserDto): Promise<UserDto> {
+    await this.store.collection('users').doc(id).update(payload);
+    const result = (await this.store.collection('users').doc(id).get()).data();
+    return plainToClass(UserDto, result);
   }
 }

@@ -11,9 +11,10 @@ import { SpendingModule } from './spending/spending.module';
 import { FirebaseModule } from './firebase/firebase.module';
 import { CategoriesModule } from './categories/categories.module';
 import { UserModule } from './user/user.module';
+import { MonobankModule } from './monobank/monobank.module';
 
 @Module({
-  imports: [FirebaseModule, SpendingModule, CategoriesModule, UserModule],
+  imports: [FirebaseModule, SpendingModule, CategoriesModule, UserModule, MonobankModule],
   controllers: [AppController],
   providers: [AppService],
 })

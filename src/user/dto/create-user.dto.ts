@@ -54,10 +54,14 @@ export class UserDto {
   @Type(() => MonoBankAccountDTO)
   @IsOptional()
   monoBankAccounts: MonoBankAccountDTO[];
+
+  @Expose()
+  @IsString()
+  @IsOptional()
+  displayLanguage: string;
 }
 
 export class MonoBankAccountDTO {
-
   @Expose()
   @IsNumber()
   @IsNotEmpty()
