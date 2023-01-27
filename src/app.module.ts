@@ -14,15 +14,21 @@ import { UserModule } from './user/user.module';
 import { MonobankModule } from './monobank/monobank.module';
 
 @Module({
-  imports: [FirebaseModule, SpendingModule, CategoriesModule, UserModule, MonobankModule],
+  imports: [
+    FirebaseModule,
+    SpendingModule,
+    CategoriesModule,
+    UserModule,
+    MonobankModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer): any {
-    consumer.apply(PreAuthMiddleware).forRoutes({
-      path: '/*',
-      method: RequestMethod.ALL,
-    });
-  }
+export class AppModule {
+  // configure(consumer: MiddlewareConsumer): any {
+  //   consumer.apply(PreAuthMiddleware).forRoutes({
+  //     path: '/*',
+  //     method: RequestMethod.ALL,
+  //   });
+  // }
 }

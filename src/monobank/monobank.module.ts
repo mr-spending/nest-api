@@ -4,6 +4,6 @@ import { MonobankController } from './monobank.controller';
 
 @Module({
   controllers: [MonobankController],
-  providers: [MonobankService]
+  providers: [MonobankService],
 })
 export class MonobankModule {}
