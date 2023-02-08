@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as firebase from 'firebase-admin';
 import firebaseConfig from './firebase-config';
+import { of } from 'rxjs';
 
 @Injectable()
 export class FirebaseService {
@@ -17,7 +18,8 @@ export class FirebaseService {
     return this.firebaseApp.auth();
   };
 
-  firestore = (): firebase.firestore.Firestore => {
-    return this.firebaseApp.firestore();
+  firestore = (): any => {
+    return of();
+    // return this.firebaseApp.firestore();
   };
 }

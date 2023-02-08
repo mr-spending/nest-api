@@ -1,31 +1,29 @@
 import { Body, Controller, Get, Param, Patch, Post, Req } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDto } from './dto/create-user.dto';
-import { User } from '../shared/interfaces/user';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserTokenData } from '../shared/interfaces/user';
+import { User } from './schema/user.schema';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  create(@Body() createUserDto: UserDto): Promise<UserDto> {
+  create(@Body() createUserDto: UserDto): Promise<User> {
     return this.userService.create(createUserDto);
   }
 
   @Get(':id')
-  findOne(
-    @Req() req: { user: User },
-    @Param('id') id: string,
-  ): Promise<UserDto> {
-    return this.userService.findOne(id, req.user.userId);
+  findOne(@Param('id') id: string): Promise<User> {
+    return this.userService.findOne(id);
   }
 
   @Patch()
   update(
-    @Req() req: { user: User },
+    @Req() req: { user: UserTokenData },
     @Body() payload: UpdateUserDto,
-  ): Promise<UserDto> {
+  ): Promise<User> {
     return this.userService.update(req.user.userId, payload);
   }
 }

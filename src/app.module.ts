@@ -7,6 +7,7 @@ import { FirebaseModule } from './firebase/firebase.module';
 import { CategoriesModule } from './categories/categories.module';
 import { UserModule } from './user/user.module';
 import { MonobankModule } from './monobank/monobank.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
@@ -15,6 +16,9 @@ import { MonobankModule } from './monobank/monobank.module';
     CategoriesModule,
     UserModule,
     MonobankModule,
+    MongooseModule.forRoot(
+      'mongodb+srv://mrSpending:mrSpending@cluster0.ozrqavn.mongodb.net/mr-spending-db?retryWrites=true&w=majority',
+    ),
   ],
   controllers: [AppController],
   providers: [AppService],
