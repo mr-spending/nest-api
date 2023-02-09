@@ -1,19 +1,20 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 
 export type UserDocument = HydratedDocument<User>;
 
-@Schema()
+@Schema({ _id: false })
 export class MonoBankAccount {
+  @Prop({ type: String, required: true })
+  type: string;
   @Prop({ type: Number, required: true })
   currencyCode: number;
   @Prop({ type: String, required: true })
   id: string;
   @Prop({ type: [String], required: true })
   maskedPan: string[];
-  @Prop({ type: String, required: true })
-  type: string;
 }
+const MonoBankAccountSchema = SchemaFactory.createForClass(MonoBankAccount);
 
 @Schema()
 export class User {
@@ -33,7 +34,10 @@ export class User {
   currencyId?: string;
   @Prop({ type: String, required: false })
   monoBankClientToken?: string;
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'MonoBankAccount' }], required: false })
+  @Prop({
+    type: [MonoBankAccountSchema],
+    required: false,
+  })
   monoBankAccounts?: MonoBankAccount[];
 }
 

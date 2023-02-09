@@ -1,23 +1,23 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 
 export type CategoriesDocument = HydratedDocument<Categories>;
 
-@Schema()
+@Schema({ _id: false })
 export class Icon {
   @Prop({ type: String, required: true })
   iconType: string;
   @Prop({ type: String, required: true })
   background: string;
 }
-SchemaFactory.createForClass(Icon);
+const IconSchema = SchemaFactory.createForClass(Icon);
 
 @Schema()
 export class Categories {
   @Prop({ type: String, required: true })
   name: string;
 
-  @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Icon', required: true }})
+  @Prop({ type: IconSchema, required: true })
   icon: Icon;
 }
 
