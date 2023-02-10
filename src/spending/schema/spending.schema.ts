@@ -5,6 +5,8 @@ export type SpendingDocument = HydratedDocument<Spending>;
 
 @Schema()
 export class Spending {
+  @Prop({ type: String, required: false })
+  bankId: string;
   @Prop({ type: Number, required: true })
   amount: number;
   @Prop({ type: Number, required: true })

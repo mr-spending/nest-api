@@ -5,7 +5,13 @@ export class SpendingDto {
   @Expose()
   @IsString()
   @IsNotEmpty()
+  @ValidateIf((o) => !o.bankId)
   id: string;
+
+  @Expose()
+  @IsString()
+  @IsOptional()
+  bankId: string;
 
   @Expose()
   @IsNumber()
