@@ -3,7 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 export type MonobankDocument = HydratedDocument<Monobank>;
 
-@Schema({ _id: false, collection: 'bufferMonobank' })
+@Schema({ _id: false })
 export class StatementItem {
   @Prop({ type: String, required: true })
   id: string;
@@ -32,7 +32,7 @@ export class MonoBankData {
 }
 const MonoBankDataSchema = SchemaFactory.createForClass(MonoBankData);
 
-@Schema()
+@Schema({ collection: 'bufferMonobank' })
 export class Monobank {
   @Prop({ type: MonoBankData, required: true })
   data: MonoBankData;
