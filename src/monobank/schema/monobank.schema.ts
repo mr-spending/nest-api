@@ -3,7 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 export type MonobankDocument = HydratedDocument<Monobank>;
 
-@Schema({ _id: false })
+@Schema({ _id: false, collection: 'bufferMonobank' })
 export class StatementItem {
   @Prop({ type: String, required: true })
   id: string;
