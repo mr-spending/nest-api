@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, HttpCode, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, HttpCode, Req, Query } from '@nestjs/common';
 import { MonobankService } from './monobank.service';
 import { CreateMonobankDto } from './dto/create-monobank.dto';
 import { UserTokenData } from '../shared/interfaces/user';
+import { GetSpendingsQueryDto } from '../spending/dto/spending.dto';
 
 @Controller('monobank')
 export class MonobankController {
@@ -19,7 +20,10 @@ export class MonobankController {
   }
 
   @Get('/transactions')
-  getTransactions(@Req() req: { user: UserTokenData }) {
-    return this.monobankService.getTransactions(req.user.userId);
+  getTransactions(
+    @Req() req: { user: UserTokenData },
+    @Query() params: GetSpendingsQueryDto,
+  ) {
+    return this.monobankService.getTransactions(req.user.userId, params);
   }
 }

@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UserService } from '../user/user.service';
 import { Monobank, MonobankDocument } from './schema/monobank.schema';
+import { GetSpendingsQueryDto } from '../spending/dto/spending.dto';
 
 @Injectable()
 export class MonobankService {
@@ -17,15 +18,20 @@ export class MonobankService {
     return;
   }
 
-  async getTransactions(userId: string) {
+  async getTransactions(userId: string, params?: GetSpendingsQueryDto) {
     const accounts = (
       await this.userService.findOne(userId)
     ).monoBankAccounts.map((account) => account.id);
 
-    return (
-      (await this.monobankModel.find().exec())?.filter((transaction) =>
-        accounts?.includes(transaction.data.account),
-      ) || []
-    );
+    const data = (await this.monobankModel.find().exec())
+      ?.filter((transaction) => accounts?.includes(transaction.data.account))
+      .filter((item) =>
+        params?.startDate
+          ? item.data.statementItem.time >= +params.startDate &&
+            item.data.statementItem.time <= +params.endDate
+          : true,
+      );
+
+    return data.length ? data : [];
   }
 }
