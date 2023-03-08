@@ -7,8 +7,10 @@ export type SpendingDocument = HydratedDocument<Spending>;
 export class Spending {
   @Prop({ type: String, required: false })
   bankId: string;
+
   @Prop({ type: Number, required: true })
   amount: number;
+
   @Prop({ type: Number, required: true })
   time: number;
 
@@ -20,6 +22,9 @@ export class Spending {
 
   @Prop({ type: String, required: false })
   date: string;
+
+  @Prop({ type: Number, required: false })
+  currencyCode: number;
 
   @Prop({ type: String, required: true })
   userId: string;

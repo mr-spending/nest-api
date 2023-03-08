@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { CreateMonobankDto } from './dto/create-monobank.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+
+import { CreateMonobankDto } from './dto/create-monobank.dto';
 import { UserService } from '../user/user.service';
 import { Monobank, MonobankDocument } from './schema/monobank.schema';
-import { GetSpendingsQueryDto } from '../spending/dto/spending.dto';
+import { GetSpendingQueryDto } from '../spending/dto/spending.dto';
 
 @Injectable()
 export class MonobankService {
@@ -18,7 +19,7 @@ export class MonobankService {
     return;
   }
 
-  async getTransactions(userId: string, params?: GetSpendingsQueryDto) {
+  async getTransactions(userId: string, params?: GetSpendingQueryDto) {
     const accounts = (
       await this.userService.findOne(userId)
     ).monoBankAccounts.map((account) => account.id);

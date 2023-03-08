@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { UserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UserDto } from './dto/user.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
+import { Model } from 'mongoose';
+
 import { User, UserDocument } from './schema/user.schema';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class UserService {
     return await this.userModel.findOne({ id }).exec();
   }
 
-  async update(id: string, payload: UpdateUserDto): Promise<User> {
+  async update(id: string, payload: UserDto): Promise<User> {
     return await this.userModel.findOneAndUpdate({ id }, payload).exec();
   }
 }

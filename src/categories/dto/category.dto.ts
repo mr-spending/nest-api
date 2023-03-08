@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-import { Expose, Type } from 'class-transformer';
+import { Type } from 'class-transformer';
 
 export class IconModel {
   @IsString()
@@ -18,7 +18,6 @@ export class CategoryDto {
   @IsNotEmpty()
   name: string;
 
-  @Expose()
   @IsNotEmpty()
   @Type(() => IconModel)
   icon: IconModel;

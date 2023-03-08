@@ -1,8 +1,9 @@
 import { Controller, Get, Post, Body, HttpCode, Req, Query } from '@nestjs/common';
+
 import { MonobankService } from './monobank.service';
-import { CreateMonobankDto } from './dto/create-monobank.dto';
+import { CreateMonobankDto, MonobankTransactionDto } from './dto/create-monobank.dto';
 import { UserTokenData } from '../shared/interfaces/user';
-import { GetSpendingsQueryDto } from '../spending/dto/spending.dto';
+import { GetSpendingQueryDto } from '../spending/dto/spending.dto';
 
 @Controller('monobank')
 export class MonobankController {
@@ -22,8 +23,8 @@ export class MonobankController {
   @Get('/transactions')
   getTransactions(
     @Req() req: { user: UserTokenData },
-    @Query() params: GetSpendingsQueryDto,
-  ) {
-    return this.monobankService.getTransactions(req.user.userId, params);
+    @Query() params: GetSpendingQueryDto,
+  ): Promise<MonobankTransactionDto[]> {
+    return this.monobankService.getTransactions(req.user.userId, params) as Promise<MonobankTransactionDto[]>;
   }
 }
