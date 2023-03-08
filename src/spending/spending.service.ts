@@ -1,11 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import * as firebase from 'firebase-admin';
-
-import { GetSpendingsQueryDto, SpendingDto } from './dto/spending.dto';
-import { UpdateSpendingDto } from './dto/update-spending.dto';
 import { InjectModel } from '@nestjs/mongoose';
+import * as firebase from 'firebase-admin';
 import { Model } from 'mongoose';
+
 import { Spending, SpendingDocument } from './schema/spending.schema';
+import { GetSpendingQueryDto, SpendingDto } from './dto/spending.dto';
 
 @Injectable()
 export class SpendingService {
@@ -25,7 +24,7 @@ export class SpendingService {
 
   async findAll(
     userId: string,
-    params?: GetSpendingsQueryDto,
+    params?: GetSpendingQueryDto,
   ): Promise<Spending[]> {
     const data = await this.spendingModel.find({ userId });
     return data.filter(
@@ -35,7 +34,7 @@ export class SpendingService {
 
   async update(
     id: string,
-    updateSpendingDto: UpdateSpendingDto,
+    updateSpendingDto: SpendingDto,
     userId: string,
   ): Promise<Spending> {
     return await this.spendingModel
