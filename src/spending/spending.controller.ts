@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { SpendingService } from './spending.service';
 import { GetSpendingQueryDto, SpendingDto } from './dto/spending.dto';
@@ -7,6 +7,7 @@ import { UserTokenData } from '../shared/interfaces/user';
 import { Spending } from './schema/spending.schema';
 
 @ApiTags('Spending')
+@ApiBearerAuth()
 @Controller('spending')
 export class SpendingController {
   constructor(private readonly spendingService: SpendingService) {}

@@ -1,13 +1,14 @@
 import { Controller, Get, Post, Body, HttpCode, Req, Query } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { MonobankService } from './monobank.service';
 import { CreateMonobankDto, MonobankTransactionDto } from './dto/create-monobank.dto';
 import { UserTokenData } from '../shared/interfaces/user';
-import { GetSpendingQueryDto, SpendingDto } from '../spending/dto/spending.dto';
+import { GetSpendingQueryDto } from '../spending/dto/spending.dto';
 import { Monobank } from './schema/monobank.schema';
 
 @ApiTags('Monobank')
+@ApiBearerAuth()
 @Controller('monobank')
 export class MonobankController {
   constructor(private readonly monobankService: MonobankService) {}
