@@ -1,14 +1,18 @@
 import { Controller, Get } from '@nestjs/common';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { CategoriesService } from './categories.service';
 import { CategoryDto } from './dto/category.dto';
+import { Categories } from './schema/categories.schema';
 
+@ApiTags('Categories')
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Get()
-  findAll(): Promise<CategoryDto[]> {
-    return this.categoriesService.findAll() as Promise<CategoryDto[]>;
+  @ApiResponse({ status: 200, type: [CategoryDto] })
+  findAll(): Promise<Categories[]> {
+    return this.categoriesService.findAll();
   }
 }

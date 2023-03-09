@@ -1,36 +1,46 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req } from '@nestjs/common';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { SpendingService } from './spending.service';
 import { GetSpendingQueryDto, SpendingDto } from './dto/spending.dto';
 import { UserTokenData } from '../shared/interfaces/user';
+import { Spending } from './schema/spending.schema';
 
+@ApiTags('Spending')
 @Controller('spending')
 export class SpendingController {
   constructor(private readonly spendingService: SpendingService) {}
 
   @Post()
-  create(@Req() req: { user: UserTokenData }, @Body() createSpendingDto: SpendingDto): Promise<SpendingDto>{
-    return this.spendingService.create(createSpendingDto, req.user.userId) as Promise<SpendingDto>;
+  @ApiResponse({ status: 201, type: SpendingDto })
+  create(
+    @Req() req: { user: UserTokenData },
+    @Body() createSpendingDto: SpendingDto
+  ): Promise<Spending>{
+    return this.spendingService.create(createSpendingDto, req.user.userId);
   }
 
   @Get()
+  @ApiResponse({ status: 200, type: [SpendingDto] })
   findAll(
     @Req() req: { user: UserTokenData },
     @Query() params: GetSpendingQueryDto,
-  ): Promise<SpendingDto[]> {
-    return this.spendingService.findAll(req.user.userId, params) as Promise<SpendingDto[]>;
+  ): Promise<Spending[]> {
+    return this.spendingService.findAll(req.user.userId, params);
   }
 
   @Patch(':id')
+  @ApiResponse({ status: 200, type: SpendingDto })
   update(
     @Req() req: { user: UserTokenData },
     @Param('id') id: string,
     @Body() updateSpendingDto: SpendingDto,
-  ): Promise<SpendingDto> {
-    return this.spendingService.update(id, updateSpendingDto, req.user.userId) as Promise<SpendingDto>;
+  ): Promise<Spending> {
+    return this.spendingService.update(id, updateSpendingDto, req.user.userId);
   }
 
   @Delete(':id')
+  @ApiResponse({ status: 200 })
   remove(@Req() req: { user: UserTokenData }, @Param('id') id: string): void {
     this.spendingService.remove(id, req.user.userId);
   }
