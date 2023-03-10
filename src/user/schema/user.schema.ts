@@ -39,6 +39,8 @@ export class User {
     required: false,
   })
   monoBankAccounts?: MonoBankAccount[];
+  @Prop({ type: String, required: false })
+  displayLanguage?: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
