@@ -5,8 +5,6 @@ import { UserService } from './user.service';
 import { UserDto } from './dto/user.dto';
 import { UserTokenData } from '../shared/interfaces/user';
 import { User } from './schema/user.schema';
-import { GetSpendingQueryDto, SpendingDto } from '../spending/dto/spending.dto';
-import { Spending } from '../spending/schema/spending.schema';
 import { CategoryDto } from '../categories/dto/category.dto';
 
 @ApiTags('User')

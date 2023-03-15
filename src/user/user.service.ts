@@ -6,7 +6,6 @@ import { User, UserDocument } from './schema/user.schema';
 import { CategoryDto } from '../categories/dto/category.dto';
 import { UserDto } from './dto/user.dto';
 import { SpendingService } from '../spending/spending.service';
-import { Spending, SpendingDocument } from '../spending/schema/spending.schema';
 import { SpendingDto } from '../spending/dto/spending.dto';
 
 @Injectable()
