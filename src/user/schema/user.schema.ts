@@ -31,10 +31,22 @@ export class UserCategories {
   @Prop({ type: String, required: true })
   name: string;
 
+  @Prop({ type: String, required: false })
+  id: string;
+
   @Prop({ type: IconSchema, required: true })
   icon: Icon;
 }
-const UserCategoriesSchema = SchemaFactory.createForClass(UserCategories);
+const UserCategoriesSchema = SchemaFactory.createForClass(Categories).set(
+  'toJSON',
+  {
+    virtuals: true,
+    versionKey: false,
+    transform: function (doc, ret) {
+      delete ret._id;
+    },
+  },
+);
 
 @Schema()
 export class User {

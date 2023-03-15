@@ -8,13 +8,14 @@ import { User } from './schema/user.schema';
 import { GetSpendingQueryDto, SpendingDto } from '../spending/dto/spending.dto';
 import { Spending } from '../spending/schema/spending.schema';
 import { CategoryDto } from '../categories/dto/category.dto';
-import { Categories } from '../categories/schema/categories.schema';
 
 @ApiTags('User')
 @ApiBearerAuth()
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  /** USER **/
 
   @Post()
   @ApiResponse({ status: 201, type: UserDto })
@@ -37,12 +38,14 @@ export class UserController {
     return this.userService.update(req.user.userId, payload);
   }
 
+  /** USER CATEGORIES **/
+
   @Post('/categories')
   @ApiResponse({ status: 201, type: CategoryDto })
   createCategory(
     @Req() req: { user: UserTokenData },
     @Body() createCategoryDto: CategoryDto
-  ): Promise<User>{
+  ): Promise<User> {
     return this.userService.createCategory(req.user.userId, createCategoryDto);
   }
 
@@ -50,24 +53,25 @@ export class UserController {
   // @ApiResponse({ status: 200, type: [CategoryDto] })
   // findAllCategories(
   //   @Req() req: { user: UserTokenData },
-  //   @Query() params: GetSpendingQueryDto,
-  // ): Promise<Spending[]> {
-  //   return this.userService.findAllCategories(req.user.userId, params);
+  // ): Promise<CategoryDto[]> {
+  //   return this.userService.findAllCategories(req.user.userId);
   // }
-  //
-  // @Patch('/categories')
-  // @ApiResponse({ status: 200, type: CategoryDto })
-  // updateCategory(
-  //   @Req() req: { user: UserTokenData },
-  //   @Param('id') id: string,
-  //   @Body() updateSpendingDto: SpendingDto,
-  // ): Promise<Spending> {
-  //   return this.userService.updateCategory(id, updateSpendingDto, req.user.userId);
-  // }
-  //
-  // @Delete('/categories')
-  // @ApiResponse({ status: 200 })
-  // removeCategory(@Req() req: { user: UserTokenData }, @Param('id') id: string): void {
-  //   this.userService.removeCategory(id, req.user.userId);
-  // }
+
+  @Patch('/categories')
+  @ApiResponse({ status: 200, type: CategoryDto })
+  updateCategory(
+    @Req() req: { user: UserTokenData },
+    @Body() updateCategoryDto: CategoryDto,
+  ): Promise<User> {
+    return this.userService.updateCategory(updateCategoryDto, req.user.userId);
+  }
+
+  @Delete('/categories/:id')
+  @ApiResponse({ status: 200 })
+  removeCategory(
+    @Req() req: { user: UserTokenData },
+    @Param('id') id: string
+  ): void {
+    this.userService.removeCategory(id, req.user.userId);
+  }
 }
