@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import { Categories, CategoriesSchema } from '../../categories/schema/categories.schema';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -15,6 +16,25 @@ export class MonoBankAccount {
   maskedPan: string[];
 }
 const MonoBankAccountSchema = SchemaFactory.createForClass(MonoBankAccount);
+
+@Schema({ _id: false })
+export class Icon {
+  @Prop({ type: String, required: true })
+  iconType: string;
+  @Prop({ type: String, required: true })
+  background: string;
+}
+const IconSchema = SchemaFactory.createForClass(Icon);
+
+@Schema()
+export class UserCategories {
+  @Prop({ type: String, required: true })
+  name: string;
+
+  @Prop({ type: IconSchema, required: true })
+  icon: Icon;
+}
+const UserCategoriesSchema = SchemaFactory.createForClass(UserCategories);
 
 @Schema()
 export class User {
@@ -34,11 +54,13 @@ export class User {
   currencyId?: string;
   @Prop({ type: String, required: false })
   monoBankClientToken?: string;
-  @Prop({
-    type: [MonoBankAccountSchema],
-    required: false,
-  })
+
+  @Prop({ type: [MonoBankAccountSchema], required: false })
   monoBankAccounts?: MonoBankAccount[];
+
+  @Prop({ type: [UserCategoriesSchema], required: false })
+  categories?: UserCategories[];
+
   @Prop({ type: String, required: false })
   displayLanguage?: string;
 }
