@@ -1,16 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import { User, UserDocument } from './schema/user.schema';
 import { CategoryDto } from '../categories/dto/category.dto';
 import { UserDto } from './dto/user.dto';
+import { SpendingService } from '../spending/spending.service';
+import { Spending, SpendingDocument } from '../spending/schema/spending.schema';
+import { SpendingDto } from '../spending/dto/spending.dto';
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectModel(User.name) private userModel: Model<UserDocument>
-  ) {}
+  @Inject(SpendingService) private readonly spendingService: SpendingService;
+
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) { }
 
   async create(user: UserDto): Promise<User> {
     return await new this.userModel(user).save();
@@ -87,6 +90,11 @@ export class UserService {
         categories: updatedCategories
       }
     })
+    await this.spendingService.findAll(userId).then(spending => spending.forEach(item => {
+      if (item.categoryId === categoryId)
+        this.spendingService.update((item as any)._id, { categoryId: '63e3ca87631b20b10e81bcab' } as SpendingDto, userId);
+
+    }))
     return await this.userModel.findOneAndUpdate({ id: userId }, updatedUser).exec();
   }
 }
