@@ -16,6 +16,28 @@ export class MonoBankAccount {
 }
 const MonoBankAccountSchema = SchemaFactory.createForClass(MonoBankAccount);
 
+@Schema({ _id: false })
+export class Icon {
+  @Prop({ type: String, required: true })
+  iconType: string;
+  @Prop({ type: String, required: true })
+  background: string;
+}
+const IconSchema = SchemaFactory.createForClass(Icon);
+
+@Schema()
+export class UserCategories {
+  @Prop({ type: String, required: true })
+  name: string;
+
+  @Prop({ type: String, required: true })
+  id: string;
+
+  @Prop({ type: IconSchema, required: true })
+  icon: Icon;
+}
+const UserCategoriesSchema = SchemaFactory.createForClass(UserCategories);
+
 @Schema()
 export class User {
   @Prop({ type: String, required: true })
@@ -34,11 +56,10 @@ export class User {
   currencyId?: string;
   @Prop({ type: String, required: false })
   monoBankClientToken?: string;
-  @Prop({
-    type: [MonoBankAccountSchema],
-    required: false,
-  })
+  @Prop({ type: [MonoBankAccountSchema], required: false })
   monoBankAccounts?: MonoBankAccount[];
+  @Prop({ type: [UserCategoriesSchema], required: false })
+  categories?: UserCategories[];
   @Prop({ type: String, required: false })
   displayLanguage?: string;
 }

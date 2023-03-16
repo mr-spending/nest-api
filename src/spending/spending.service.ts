@@ -27,9 +27,9 @@ export class SpendingService {
     params?: GetSpendingQueryDto,
   ): Promise<Spending[]> {
     const data = await this.spendingModel.find({ userId });
-    return data.filter(
-      (item) => item.time >= +params.startDate && item.time <= +params.endDate,
-    );
+    return params
+            ? data.filter((item) => item.time >= +params.startDate && item.time <= +params.endDate)
+            : data;
   }
 
   async update(

@@ -13,5 +13,6 @@ import { Spending, SpendingSchema } from './schema/spending.schema';
   ],
   controllers: [SpendingController],
   providers: [SpendingService],
+  exports: [SpendingService],
 })
 export class SpendingModule {}

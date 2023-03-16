@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -15,7 +15,7 @@ export class IconModel {
 }
 export class CategoryDto {
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty({ type: String })
   id: string;
 
