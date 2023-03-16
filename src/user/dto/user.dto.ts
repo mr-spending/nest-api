@@ -42,7 +42,7 @@ export class UserDto {
   @ApiProperty({ type: Boolean })
   emailVerified: boolean;
 
-  @IsBoolean()
+  @IsArray()
   @IsNotEmpty()
   @ApiProperty({ type: [CategoryDto] })
   categories: CategoryDto[];
