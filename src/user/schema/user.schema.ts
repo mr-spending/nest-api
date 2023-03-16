@@ -59,7 +59,7 @@ export class User {
   @Prop({ type: [MonoBankAccountSchema], required: false })
   monoBankAccounts?: MonoBankAccount[];
   @Prop({ type: [UserCategoriesSchema], required: false })
-  categories?: UserCategories[];
+  categories: UserCategories[];
   @Prop({ type: String, required: false })
   displayLanguage?: string;
 }
