@@ -1,6 +1,7 @@
 import { IsArray, IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { CategoryDto } from '../../categories/dto/category.dto';
 
 export class MonoBankAccountDTO {
   @IsNumber()
@@ -40,6 +41,11 @@ export class UserDto {
   @IsNotEmpty()
   @ApiProperty({ type: Boolean })
   emailVerified: boolean;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  @ApiProperty({ type: [CategoryDto] })
+  categories: CategoryDto[];
 
   @IsString()
   @IsOptional()

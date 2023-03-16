@@ -51,7 +51,7 @@ export class User {
   @Prop({ type: Boolean, required: true })
   emailVerified: boolean;
   @Prop({ type: String, required: false })
-  currency?: string;
+  currency: string;
   @Prop({ type: String, required: false })
   currencyId?: string;
   @Prop({ type: String, required: false })
