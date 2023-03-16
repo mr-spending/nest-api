@@ -36,7 +36,7 @@ export class SpendingService {
     id: string,
     updateSpendingDto: SpendingDto,
     userId: string,
-  ): Promise<Spending> {  console.log({ _id: id, userId }, updateSpendingDto)
+  ): Promise<Spending> {
     return await this.spendingModel
       .findOneAndUpdate({ _id: id, userId }, updateSpendingDto)
       .exec();

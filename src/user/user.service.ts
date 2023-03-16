@@ -92,7 +92,6 @@ export class UserService {
     await this.spendingService.findAll(userId).then(spending => spending.forEach(item => {
       if (item.categoryId === categoryId)
         this.spendingService.update((item as any)._id, { categoryId: '63e3ca87631b20b10e81bcab' } as SpendingDto, userId);
-
     }))
     return await this.userModel.findOneAndUpdate({ id: userId }, updatedUser).exec();
   }

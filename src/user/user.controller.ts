@@ -40,11 +40,11 @@ export class UserController {
 
   @Post('/categories')
   @ApiResponse({ status: 201, type: CategoryDto })
-  createCategory(
+  async createCategory(
     @Req() req: { user: UserTokenData },
     @Body() createCategoryDto: CategoryDto
   ): Promise<User> {
-    return this.userService.createCategory(req.user.userId, createCategoryDto);
+    return await this.userService.createCategory(req.user.userId, createCategoryDto);
   }
 
   // @Get('/categories')
@@ -57,19 +57,19 @@ export class UserController {
 
   @Patch('/categories')
   @ApiResponse({ status: 200, type: CategoryDto })
-  updateCategory(
+  async updateCategory(
     @Req() req: { user: UserTokenData },
     @Body() updateCategoryDto: CategoryDto,
   ): Promise<User> {
-    return this.userService.updateCategory(updateCategoryDto, req.user.userId);
+    return await this.userService.updateCategory(updateCategoryDto, req.user.userId);
   }
 
   @Delete('/categories/:id')
   @ApiResponse({ status: 200 })
-  removeCategory(
+  async removeCategory(
     @Req() req: { user: UserTokenData },
     @Param('id') id: string
-  ): void {
-    this.userService.removeCategory(id, req.user.userId);
+  ): Promise<any> {
+    await this.userService.removeCategory(id, req.user.userId);
   }
 }
