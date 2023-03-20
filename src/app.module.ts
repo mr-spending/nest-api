@@ -6,7 +6,6 @@ import { AppService } from './app.service';
 import { PreAuthMiddleware } from './firebase/pre-auth.middleware';
 import { SpendingModule } from './spending/spending.module';
 import { FirebaseModule } from './firebase/firebase.module';
-import { CategoriesModule } from './categories/categories.module';
 import { UserModule } from './user/user.module';
 import { MonobankModule } from './monobank/monobank.module';
 
@@ -15,7 +14,6 @@ import { MonobankModule } from './monobank/monobank.module';
   imports: [
     FirebaseModule,
     SpendingModule,
-    CategoriesModule,
     UserModule,
     MonobankModule,
     MongooseModule.forRoot(

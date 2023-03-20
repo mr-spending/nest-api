@@ -14,35 +14,35 @@ export class SpendingController {
 
   @Post()
   @ApiResponse({ status: 201, type: SpendingDto })
-  create(
+  async create(
     @Req() req: { user: UserTokenData },
     @Body() createSpendingDto: SpendingDto
   ): Promise<Spending>{
-    return this.spendingService.create(createSpendingDto, req.user.userId);
+    return await this.spendingService.create(createSpendingDto, req.user.userId);
   }
 
   @Get()
   @ApiResponse({ status: 200, type: [SpendingDto] })
-  findAll(
+  async findAll(
     @Req() req: { user: UserTokenData },
     @Query() params: GetSpendingQueryDto,
   ): Promise<Spending[]> {
-    return this.spendingService.findAll(req.user.userId, params);
+    return await this.spendingService.findAll(req.user.userId, params);
   }
 
   @Patch(':id')
   @ApiResponse({ status: 200, type: SpendingDto })
-  update(
+  async update(
     @Req() req: { user: UserTokenData },
     @Param('id') id: string,
     @Body() updateSpendingDto: SpendingDto,
   ): Promise<Spending> {
-    return this.spendingService.update(id, updateSpendingDto, req.user.userId);
+    return await this.spendingService.update(id, updateSpendingDto, req.user.userId);
   }
 
   @Delete(':id')
   @ApiResponse({ status: 200 })
-  remove(@Req() req: { user: UserTokenData }, @Param('id') id: string): void {
-    this.spendingService.remove(id, req.user.userId);
+  async remove(@Req() req: { user: UserTokenData }, @Param('id') id: string): Promise<void> {
+    await this.spendingService.remove(id, req.user.userId);
   }
 }

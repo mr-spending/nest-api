@@ -23,6 +23,11 @@ export class StatementItemDto {
   @ApiProperty({ type: String, required: false })
   description: string;
 
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ type: String, required: false })
+  comment: string;
+
   @IsNumber()
   @IsOptional()
   @ApiProperty({ type: Number, required: false })
@@ -46,23 +51,6 @@ export class CreateMonobankDto {
   @Type(() => MonoBankDataDto)
   @ApiProperty({ type: MonoBankDataDto })
   data: MonoBankDataDto;
-
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty({ type: String })
-  type: string;
-}
-
-export class MonobankTransactionDto {
-  @IsNotEmpty()
-  @Type(() => MonoBankDataDto)
-  @ApiProperty({ type: MonoBankDataDto })
-  data: MonoBankDataDto;
-
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty({ type: String })
-  id: string;
 
   @IsString()
   @IsNotEmpty()
