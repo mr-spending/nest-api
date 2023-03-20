@@ -30,6 +30,12 @@ export class SpendingController {
     return await this.spendingService.findAll(req.user.userId, params);
   }
 
+  @Get('/deleted')
+  @ApiResponse({ status: 200, type: [SpendingDto] })
+  async findAllDeleted(@Req() req: { user: UserTokenData }): Promise<Spending[]> {
+    return await this.spendingService.findAllDeleted(req.user.userId);
+  }
+
   @Patch(':id')
   @ApiResponse({ status: 200, type: SpendingDto })
   async update(

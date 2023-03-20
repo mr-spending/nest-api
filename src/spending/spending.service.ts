@@ -31,9 +31,13 @@ export class SpendingService {
   }
 
   async findAll(userId: string, params?: GetSpendingQueryDto): Promise<Spending[]> {
-    const query = { userId };
+    const query = { userId, status: SpendingStatusEnum.Accepted };
     if (params) Object.assign(query, { time: { $gte: +params.startDate, $lte: +params.endDate } });
     return this.spendingModel.find(query).exec();
+  }
+
+  async findAllDeleted(userId: string, params?: GetSpendingQueryDto): Promise<Spending[]> {
+    return this.spendingModel.find({ userId, status: SpendingStatusEnum.Rejected }).exec();
   }
 
   async update(id: string, updateSpendingDto: SpendingDto, userId: string): Promise<Spending> {
