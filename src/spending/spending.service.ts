@@ -50,10 +50,14 @@ export class SpendingService {
       .exec();
   }
 
-  async remove(id: string, userId: string): Promise<void> {
+  async delete(id: string, userId: string): Promise<void> {
     await this.spendingModel.findOneAndUpdate({ id, userId }, {
       status: SpendingStatusEnum.Rejected,
       removalTime: Math.floor(new Date().getTime() / 1000)
     }).exec();
+  }
+
+  async hardDelete(id: string, userId: string): Promise<void> {
+    await this.spendingModel.remove({ id, userId }).exec();
   }
 }
