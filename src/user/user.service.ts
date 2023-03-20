@@ -50,8 +50,8 @@ export class UserService {
     await this.userModel.findOne({ id: userId }).exec().then(user => {
       updatedCategories = user.categories.filter(item => item.id !== categoryId);
     });
-    await this.spendingModel.find({ userId, categoryId }).then(spending => spending.forEach(item => {
-      this.spendingModel.findOneAndUpdate({ id: item.id, userId }, { categoryId: '63e3ca87631b20b10e81bcab' });
+    await this.spendingModel.find({ userId, categoryId }).then(spending => spending.forEach(async item => {
+      await this.spendingModel.findOneAndUpdate({ id: item.id, userId }, { categoryId: '63e3ca87631b20b10e81bcab' });
     }));
     return await this.userModel.findOneAndUpdate({ id: userId }, { categories: updatedCategories }).exec();
   }
