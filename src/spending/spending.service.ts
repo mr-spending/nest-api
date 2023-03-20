@@ -23,7 +23,7 @@ export class SpendingService {
       ...createSpendingDto,
       userId,
       time,
-      date: moment(time * 1000).format('YYYY-MM-DD'),
+      date: moment(time * 1000).format('YYYY-MM-DD HH:mm:ss'),
       id: Guid.create().toString(),
       status: SpendingStatusEnum.Accepted,
     } as SpendingDto;

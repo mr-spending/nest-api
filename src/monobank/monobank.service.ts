@@ -31,7 +31,7 @@ export class MonobankService {
       time: statementItem.time,
       categoryId: '63e3ca87631b20b10e81bcab',
       description: statementItem.description + statementItem.comment,
-      date: moment(statementItem.time * 1000).format('YYYY-MM-DD'),
+      date: moment(statementItem.time * 1000).format('YYYY-MM-DD HH:mm:ss'),
       currencyCode: statementItem.currencyCode,
       userId: user.id,
       id: Guid.create().toString(),
