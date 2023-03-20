@@ -40,6 +40,10 @@ export class SpendingService {
     return this.spendingModel.find({ userId, status: SpendingStatusEnum.Rejected }).exec();
   }
 
+  async findAllPending(userId: string): Promise<Spending[]> {
+    return this.spendingModel.find({ userId, status: SpendingStatusEnum.Pending }).exec();
+  }
+
   async update(id: string, updateSpendingDto: SpendingDto, userId: string): Promise<Spending> {
     return await this.spendingModel
       .findOneAndUpdate({ id, userId }, updateSpendingDto)

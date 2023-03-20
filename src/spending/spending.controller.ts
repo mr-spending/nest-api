@@ -36,6 +36,12 @@ export class SpendingController {
     return await this.spendingService.findAllDeleted(req.user.userId);
   }
 
+  @Get('/pending')
+  @ApiResponse({ status: 200, type: [SpendingDto] })
+  async findAllPending(@Req() req: { user: UserTokenData }): Promise<Spending[]> {
+    return await this.spendingService.findAllPending(req.user.userId);
+  }
+
   @Patch(':id')
   @ApiResponse({ status: 200, type: SpendingDto })
   async update(
