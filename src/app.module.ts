@@ -8,6 +8,7 @@ import { SpendingModule } from './spending/spending.module';
 import { FirebaseModule } from './firebase/firebase.module';
 import { UserModule } from './user/user.module';
 import { MonobankModule } from './monobank/monobank.module';
+import { LoggerMiddleware } from './middleware/logger.middleware';
 
 
 @Module({
@@ -43,5 +44,6 @@ export class AppModule implements NestModule {
         path: '/*',
         method: RequestMethod.ALL,
       });
+    consumer.apply(LoggerMiddleware).forRoutes('*');
   }
 }

@@ -46,8 +46,8 @@ export class Spending {
   @Prop({ type: Number, select: false })
   __v: number;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, select: false })
-  _id: mongoose.Schema.Types.ObjectId;
+  // @Prop({ type: mongoose.Schema.Types.ObjectId, select: false })
+  // _id: mongoose.Schema.Types.ObjectId;
 }
 
 export const SpendingSchema = SchemaFactory.createForClass(Spending);
