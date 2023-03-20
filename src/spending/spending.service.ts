@@ -36,7 +36,7 @@ export class SpendingService {
     return this.spendingModel.find(query).exec();
   }
 
-  async findAllDeleted(userId: string, params?: GetSpendingQueryDto): Promise<Spending[]> {
+  async findAllDeleted(userId: string): Promise<Spending[]> {
     return this.spendingModel.find({ userId, status: SpendingStatusEnum.Rejected }).exec();
   }
 
