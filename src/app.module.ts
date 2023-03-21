@@ -9,6 +9,7 @@ import { FirebaseModule } from './firebase/firebase.module';
 import { UserModule } from './user/user.module';
 import { MonobankModule } from './monobank/monobank.module';
 import { LoggerMiddleware } from './middleware/logger.middleware';
+import { ScheduleModule } from '@nestjs/schedule';
 
 
 @Module({
@@ -20,6 +21,7 @@ import { LoggerMiddleware } from './middleware/logger.middleware';
     MongooseModule.forRoot(
       'mongodb+srv://mrSpending:mrSpending@cluster0.ozrqavn.mongodb.net/mr-spending-db?retryWrites=true&w=majority',
     ),
+    ScheduleModule.forRoot()
   ],
   controllers: [AppController],
   providers: [AppService],

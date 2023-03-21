@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import * as moment from 'moment';
 import { Model } from 'mongoose';
 import { Guid } from 'typescript-guid';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 import { Spending, SpendingDocument } from './schema/spending.schema';
 import { GetSpendingQueryDto, SpendingDto } from './dto/spending.dto';
@@ -68,5 +69,11 @@ export class SpendingService {
 
   async hardDeleteAllRejected(userId: string): Promise<void> {
     await this.spendingModel.remove({ userId, status: SpendingStatusEnum.Rejected }).exec();
+  }
+
+  @Cron(CronExpression.EVERY_DAY_AT_3AM)
+  async removeMonthAndOlderSpending(): Promise<void> {
+    const dateBreaker = Math.floor((new Date().getTime() - 2592000000) / 1000);
+    await this.spendingModel.remove({ status: SpendingStatusEnum.Rejected, removalTime: { $lte: +dateBreaker }});
   }
 }
