@@ -41,7 +41,12 @@ export class SpendingService {
   }
 
   async findAllPending(userId: string): Promise<Spending[]> {
-    return this.spendingModel.find({ userId, status: SpendingStatusEnum.Pending }).exec();
+    const user = await this.userModel.findOne({ id: userId }).exec();
+    const accounts = user.monoBankAccounts.map(account => account.id);
+    if (!accounts.length) return [];
+    const data = (await this.spendingModel.find({ userId, status: SpendingStatusEnum.Pending })
+      .exec())?.filter(transaction => accounts?.includes(transaction.accountId));
+    return data.length ? data : [];
   }
 
   async update(id: string, updateSpendingDto: SpendingDto, userId: string): Promise<Spending> {
@@ -59,5 +64,9 @@ export class SpendingService {
 
   async hardDelete(id: string, userId: string): Promise<void> {
     await this.spendingModel.remove({ id, userId }).exec();
+  }
+
+  async hardDeleteAllRejected(userId: string): Promise<void> {
+    await this.spendingModel.remove({ userId, status: SpendingStatusEnum.Rejected }).exec();
   }
 }

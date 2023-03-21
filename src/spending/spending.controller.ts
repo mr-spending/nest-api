@@ -58,6 +58,12 @@ export class SpendingController {
     await this.spendingService.delete(id, req.user.userId);
   }
 
+  @Delete('/hard-delete/all-rejected')
+  @ApiResponse({ status: 200 })
+  async hardDeleteAllRejected(@Req() req: { user: UserTokenData }): Promise<void> {
+    await this.spendingService.hardDeleteAllRejected(req.user.userId);
+  }
+
   @Delete('/hard-delete/:id')
   @ApiResponse({ status: 200 })
   async hardDelete(@Req() req: { user: UserTokenData }, @Param('id') id: string): Promise<void> {
