@@ -14,6 +14,11 @@ export class MonobankController {
 
   constructor(private readonly monobankService: MonobankService) { }
 
+  @Get()
+  @HttpCode(200)
+  @ApiResponse({ status: 200 })
+  async monoTest() { }
+
   @Post()
   @HttpCode(200)
   @ApiResponse({ status: 200 })
