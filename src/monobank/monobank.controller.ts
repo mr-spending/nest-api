@@ -22,7 +22,7 @@ export class MonobankController {
   @Post()
   @HttpCode(200)
   @ApiResponse({ status: 200 })
-  async create(@Body() createMonobankDto: CreateMonobankDto) {
+  async create(@Body() createMonobankDto: CreateMonobankDto): Promise<any> {
     return await this.monobankService.create(createMonobankDto);
   }
 

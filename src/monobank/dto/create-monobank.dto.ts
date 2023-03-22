@@ -26,7 +26,7 @@ export class StatementItemDto {
   @IsString()
   @IsOptional()
   @ApiProperty({ type: String, required: false })
-  comment: string;
+  comment?: string;
 
   @IsNumber()
   @IsOptional()

@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import * as moment from 'moment';
 import { Model } from 'mongoose';
 import { Guid } from 'typescript-guid';
 import { Cron, CronExpression } from '@nestjs/schedule';
+const moment = require('moment');
 
 import { Spending, SpendingDocument } from './schema/spending.schema';
 import { GetSpendingQueryDto, SpendingDto } from './dto/spending.dto';

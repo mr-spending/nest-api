@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import * as moment from 'moment/moment';
 import { Guid } from 'typescript-guid';
+const moment = require('moment');
 
 import { CreateMonobankDto } from './dto/create-monobank.dto';
 import { SpendingDto } from '../spending/dto/spending.dto';
@@ -22,7 +22,7 @@ export class MonobankService {
     const user = await this.userModel
       .findOne({ 'monoBankAccounts.id': monoTransaction.data.account }, { id: 1 })
       .exec();
-    if (!user) return;
+    if (!user || monoTransaction.data.statementItem.amount > 0) return;
     const statementItem = monoTransaction.data.statementItem;
     const spending = {
       bankId: statementItem.id,
@@ -30,7 +30,7 @@ export class MonobankService {
       amount: Math.abs(statementItem.amount),
       time: statementItem.time,
       categoryId: '63e3ca87631b20b10e81bcab',
-      description: statementItem.description + statementItem.comment,
+      description: statementItem?.comment ? (statementItem.description + ' ' + statementItem.comment) : statementItem.description,
       date: moment(statementItem.time * 1000).format('YYYY-MM-DD HH:mm:ss'),
       currencyCode: statementItem.currencyCode,
       userId: user.id,
