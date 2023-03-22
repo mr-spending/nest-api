@@ -1,10 +1,11 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsString, ValidateIf } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
+import { SpendingStatusEnum } from '../../shared/enums/enums';
+
 export class SpendingDto {
   @IsString()
-  @IsNotEmpty()
-  @ValidateIf((o) => !o.bankId)
+  @IsOptional()
   @ApiProperty({ type: String })
   id: string;
 
@@ -12,6 +13,11 @@ export class SpendingDto {
   @IsOptional()
   @ApiProperty({ type: String, required: false })
   bankId: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ type: String, required: false })
+  accountId: string;
 
   @IsNumber()
   @IsNotEmpty()
@@ -47,6 +53,16 @@ export class SpendingDto {
   @IsOptional()
   @ApiProperty({ type: String, required: false })
   userId: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ type: String, required: false })
+  status: SpendingStatusEnum;
+
+  @IsNumber()
+  @IsOptional()
+  @ApiProperty({ type: Number, required: false })
+  removalTime: number | undefined;
 }
 
 export class GetSpendingQueryDto {

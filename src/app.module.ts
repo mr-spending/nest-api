@@ -6,21 +6,22 @@ import { AppService } from './app.service';
 import { PreAuthMiddleware } from './firebase/pre-auth.middleware';
 import { SpendingModule } from './spending/spending.module';
 import { FirebaseModule } from './firebase/firebase.module';
-import { CategoriesModule } from './categories/categories.module';
 import { UserModule } from './user/user.module';
 import { MonobankModule } from './monobank/monobank.module';
+import { LoggerMiddleware } from './middleware/logger.middleware';
+import { ScheduleModule } from '@nestjs/schedule';
 
 
 @Module({
   imports: [
     FirebaseModule,
     SpendingModule,
-    CategoriesModule,
     UserModule,
     MonobankModule,
     MongooseModule.forRoot(
       'mongodb+srv://mrSpending:mrSpending@cluster0.ozrqavn.mongodb.net/mr-spending-db?retryWrites=true&w=majority',
     ),
+    ScheduleModule.forRoot()
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -45,5 +46,6 @@ export class AppModule implements NestModule {
         path: '/*',
         method: RequestMethod.ALL,
       });
+    consumer.apply(LoggerMiddleware).forRoutes('*');
   }
 }

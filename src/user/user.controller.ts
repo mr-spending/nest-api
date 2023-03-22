@@ -1,11 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req } from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { UserService } from './user.service';
-import { UserDto } from './dto/user.dto';
+import { CategoryDto, UserDto } from './dto/user.dto';
 import { UserTokenData } from '../shared/interfaces/user';
 import { User } from './schema/user.schema';
-import { CategoryDto } from '../categories/dto/category.dto';
 
 @ApiTags('User')
 @ApiBearerAuth()
@@ -17,23 +16,23 @@ export class UserController {
 
   @Post()
   @ApiResponse({ status: 201, type: UserDto })
-  create(@Body() createUserDto: UserDto): Promise<User> {
-    return this.userService.create(createUserDto);
+  async create(@Body() createUserDto: UserDto): Promise<User> {
+    return await this.userService.create(createUserDto);
   }
 
   @Get(':id')
   @ApiResponse({ status: 200, type: UserDto })
-  findOne(@Param('id') id: string): Promise<User> {
-    return this.userService.findOne(id);
+  async findOne(@Param('id') id: string): Promise<User> {
+    return await this.userService.findOne(id);
   }
 
   @Patch()
   @ApiResponse({ status: 200, type: UserDto })
-  update(
+  async update(
     @Req() req: { user: UserTokenData },
     @Body() payload: UserDto,
   ): Promise<User> {
-    return this.userService.update(req.user.userId, payload);
+    return await this.userService.update(req.user.userId, payload);
   }
 
   /** USER CATEGORIES **/
@@ -46,14 +45,6 @@ export class UserController {
   ): Promise<User> {
     return await this.userService.createCategory(req.user.userId, createCategoryDto);
   }
-
-  // @Get('/categories')
-  // @ApiResponse({ status: 200, type: [CategoryDto] })
-  // findAllCategories(
-  //   @Req() req: { user: UserTokenData },
-  // ): Promise<CategoryDto[]> {
-  //   return this.userService.findAllCategories(req.user.userId);
-  // }
 
   @Patch('/categories')
   @ApiResponse({ status: 200, type: CategoryDto })

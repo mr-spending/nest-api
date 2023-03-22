@@ -4,16 +4,16 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MonobankService } from './monobank.service';
 import { MonobankController } from './monobank.controller';
 import { FirebaseModule } from '../firebase/firebase.module';
-import { Monobank, MonobankSchema } from './schema/monobank.schema';
-import { UserModule } from '../user/user.module';
+import { Spending, SpendingSchema } from '../spending/schema/spending.schema';
+import { User, UserSchema } from '../user/schema/user.schema';
 
 @Module({
   imports: [
     FirebaseModule,
     MongooseModule.forFeature([
-      { name: Monobank.name, schema: MonobankSchema },
+      { name: Spending.name, schema: SpendingSchema },
+      { name: User.name, schema: UserSchema }
     ]),
-    UserModule,
   ],
   controllers: [MonobankController],
   providers: [MonobankService],

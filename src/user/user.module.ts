@@ -5,13 +5,15 @@ import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { FirebaseModule } from '../firebase/firebase.module';
 import { User, UserSchema } from './schema/user.schema';
-import { SpendingModule } from '../spending/spending.module';
+import { Spending, SpendingSchema } from '../spending/schema/spending.schema';
 
 @Module({
   imports: [
     FirebaseModule,
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-    SpendingModule
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
+      { name: Spending.name, schema: SpendingSchema }
+    ]),
   ],
   controllers: [UserController],
   providers: [UserService],
