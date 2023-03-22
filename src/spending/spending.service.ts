@@ -43,8 +43,8 @@ export class SpendingService {
 
   async findAllPending(userId: string): Promise<Spending[]> {
     const user = await this.userModel.findOne({ id: userId }).exec();
-    const accounts = user.monoBankAccounts.map(account => account.id);
-    if (!accounts.length) return [];
+    const accounts = user?.monoBankAccounts.map(account => account.id);
+    if (!accounts?.length) return [];
     const data = (await this.spendingModel.find({ userId, status: SpendingStatusEnum.Pending })
       .exec())?.filter(transaction => accounts?.includes(transaction.accountId));
     return data.length ? data : [];

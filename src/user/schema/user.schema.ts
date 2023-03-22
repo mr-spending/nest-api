@@ -66,7 +66,7 @@ export class User {
   emailVerified: boolean;
 
   @Prop({ type: String, required: false })
-  currency: string;
+  currency?: string;
 
   @Prop({ type: String, required: false })
   currencyId?: string;
@@ -78,16 +78,13 @@ export class User {
   monoBankAccounts?: MonoBankAccount[];
 
   @Prop({ type: [UserCategoriesSchema], required: false })
-  categories: UserCategories[];
+  categories?: UserCategories[];
 
   @Prop({ type: String, required: false })
   displayLanguage?: string;
 
   @Prop({ type: Number, select: false })
   __v: number;
-
-  @Prop({ type: mongoose.Schema.Types.ObjectId, select: false })
-  _id: mongoose.Schema.Types.ObjectId;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

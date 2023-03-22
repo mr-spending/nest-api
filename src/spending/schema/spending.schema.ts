@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 
 import { SpendingStatusEnum } from '../../shared/enums/enums';
 
@@ -45,9 +45,6 @@ export class Spending {
 
   @Prop({ type: Number, select: false })
   __v: number;
-
-  // @Prop({ type: mongoose.Schema.Types.ObjectId, select: false })
-  // _id: mongoose.Schema.Types.ObjectId;
 }
 
 export const SpendingSchema = SchemaFactory.createForClass(Spending);
