@@ -6,3 +6,9 @@ export enum DirectionEnum {
 export enum SortFieldEnum {
   Time = 'time',
 }
+
+export enum SpendingStatusEnum {
+  Pending = 'pending',
+  Rejected = 'rejected',
+  Accepted = 'accepted',
+}

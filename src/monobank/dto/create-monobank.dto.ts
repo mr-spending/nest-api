@@ -1,54 +1,59 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
-import { Expose, Type } from 'class-transformer';
+import { Type } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class StatementItemDto {
-  @Expose()
   @IsString()
   @IsNotEmpty()
+  @ApiProperty({ type: String })
   id: string;
 
-  @Expose()
   @IsNumber()
   @IsNotEmpty()
+  @ApiProperty({ type: Number })
   amount: number;
 
-  @Expose()
   @IsNumber()
   @IsNotEmpty()
+  @ApiProperty({ type: Number })
   time: number;
 
-  @Expose()
   @IsString()
   @IsOptional()
+  @ApiProperty({ type: String, required: false })
   description: string;
 
-  @Expose()
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ type: String, required: false })
+  comment?: string;
+
   @IsNumber()
   @IsOptional()
+  @ApiProperty({ type: Number, required: false })
   currencyCode: number;
 }
 
 export class MonoBankDataDto {
-  @Expose()
   @IsString()
   @IsNotEmpty()
+  @ApiProperty({ type: String })
   account: string;
 
-  @Expose()
   @IsNotEmpty()
   @Type(() => StatementItemDto)
+  @ApiProperty({ type: StatementItemDto })
   statementItem: StatementItemDto;
 }
 
 export class CreateMonobankDto {
-  @Expose()
   @IsNotEmpty()
   @Type(() => MonoBankDataDto)
+  @ApiProperty({ type: MonoBankDataDto })
   data: MonoBankDataDto;
 
-  @Expose()
   @IsString()
   @IsNotEmpty()
+  @ApiProperty({ type: String })
   type: string;
 }
-

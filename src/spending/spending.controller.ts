@@ -1,58 +1,72 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Query,
-  Req,
-} from '@nestjs/common';
-import { SpendingService } from './spending.service';
-import { GetSpendingsQueryDto, SpendingDto } from './dto/spending.dto';
-import { UpdateSpendingDto } from './dto/update-spending.dto';
-import { User } from '../shared/interfaces/user';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req } from '@nestjs/common';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+import { SpendingService } from './spending.service';
+import { GetSpendingQueryDto, SpendingDto } from './dto/spending.dto';
+import { UserTokenData } from '../shared/interfaces/user';
+import { Spending } from './schema/spending.schema';
+
+@ApiTags('Spending')
+@ApiBearerAuth()
 @Controller('spending')
 export class SpendingController {
   constructor(private readonly spendingService: SpendingService) {}
 
   @Post()
-  create(
-    @Req() req: { user: User },
-    @Body() createSpendingDto: SpendingDto,
-  ): Promise<SpendingDto> {
-    return this.spendingService.create(createSpendingDto, req.user.userId);
+  @ApiResponse({ status: 201, type: SpendingDto })
+  async create(
+    @Req() req: { user: UserTokenData },
+    @Body() createSpendingDto: SpendingDto
+  ): Promise<Spending>{
+    return await this.spendingService.create(createSpendingDto, req.user.userId);
   }
 
   @Get()
-  findAll(
-    @Req() req: { user: User },
-    @Query() params: GetSpendingsQueryDto,
-  ): Promise<SpendingDto[]> {
-    return this.spendingService.findAll(req.user.userId, params);
+  @ApiResponse({ status: 200, type: [SpendingDto] })
+  async findAll(
+    @Req() req: { user: UserTokenData },
+    @Query() params: GetSpendingQueryDto,
+  ): Promise<Spending[]> {
+    return await this.spendingService.findAll(req.user.userId, params);
   }
 
-  @Get(':id')
-  findOne(
-    @Req() req: { user: User },
-    @Param('id') id: string,
-  ): Promise<SpendingDto> {
-    return this.spendingService.findOne(id, req.user.userId);
+  @Get('/deleted')
+  @ApiResponse({ status: 200, type: [SpendingDto] })
+  async findAllDeleted(@Req() req: { user: UserTokenData }): Promise<Spending[]> {
+    return await this.spendingService.findAllDeleted(req.user.userId);
+  }
+
+  @Get('/pending')
+  @ApiResponse({ status: 200, type: [SpendingDto] })
+  async findAllPending(@Req() req: { user: UserTokenData }): Promise<Spending[]> {
+    return await this.spendingService.findAllPending(req.user.userId);
   }
 
   @Patch(':id')
-  update(
-    @Req() req: { user: User },
+  @ApiResponse({ status: 200, type: SpendingDto })
+  async update(
+    @Req() req: { user: UserTokenData },
     @Param('id') id: string,
-    @Body() updateSpendingDto: UpdateSpendingDto,
-  ): Promise<SpendingDto> {
-    return this.spendingService.update(id, updateSpendingDto, req.user.userId);
+    @Body() updateSpendingDto: SpendingDto,
+  ): Promise<Spending> {
+    return await this.spendingService.update(id, updateSpendingDto, req.user.userId);
   }
 
   @Delete(':id')
-  remove(@Req() req: { user: User }, @Param('id') id: string): Promise<void> {
-    return this.spendingService.remove(id, req.user.userId);
+  @ApiResponse({ status: 200 })
+  async delete(@Req() req: { user: UserTokenData }, @Param('id') id: string): Promise<void> {
+    await this.spendingService.delete(id, req.user.userId);
+  }
+
+  @Delete('/hard-delete/all-rejected')
+  @ApiResponse({ status: 200 })
+  async hardDeleteAllRejected(@Req() req: { user: UserTokenData }): Promise<void> {
+    await this.spendingService.hardDeleteAllRejected(req.user.userId);
+  }
+
+  @Delete('/hard-delete/:id')
+  @ApiResponse({ status: 200 })
+  async hardDelete(@Req() req: { user: UserTokenData }, @Param('id') id: string): Promise<void> {
+    await this.spendingService.hardDelete(id, req.user.userId);
   }
 }

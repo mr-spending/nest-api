@@ -1,75 +1,79 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsString, ValidateIf } from 'class-validator';
-import { Expose } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
+
+import { SpendingStatusEnum } from '../../shared/enums/enums';
 
 export class SpendingDto {
-  @Expose()
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
+  @ApiProperty({ type: String })
   id: string;
 
-  @Expose()
-  @IsNumber()
-  @IsNotEmpty()
-  amount: number;
-
-  @Expose()
-  @IsNumber()
-  @IsNotEmpty()
-  time: number;
-
-  @Expose()
   @IsString()
   @IsOptional()
-  category: string;
+  @ApiProperty({ type: String, required: false })
+  bankId: string;
 
-  @Expose()
   @IsString()
   @IsOptional()
-  categoryId: string;
-
-  @Expose()
-  @IsString()
-  @IsOptional()
-  description: string;
-
-  @Expose()
-  @IsString()
-  @IsOptional()
-  date: string;
-
-  @Expose()
-  @IsNumber()
-  @IsOptional()
-  currencyCode: number;
-
-  @Expose()
-  @IsString()
-  @IsOptional()
-  comment: string;
-
-  @Expose()
-  @IsString()
-  @IsOptional()
+  @ApiProperty({ type: String, required: false })
   accountId: string;
 
-  @Expose()
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty({ type: Number })
+  amount: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty({ type: Number })
+  time: number;
+
   @IsString()
   @IsOptional()
+  @ApiProperty({ type: String, required: false })
+  categoryId: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ type: String, required: false })
+  description: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ type: String, required: false })
+  date: string;
+
+  @IsNumber()
+  @IsOptional()
+  @ApiProperty({ type: Number, required: false })
+  currencyCode: number;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ type: String, required: false })
   userId: string;
 
-  @Expose()
   @IsString()
   @IsOptional()
-  accountType: string;
+  @ApiProperty({ type: String, required: false })
+  status: SpendingStatusEnum;
+
+  @IsNumber()
+  @IsOptional()
+  @ApiProperty({ type: Number, required: false })
+  removalTime: number | undefined;
 }
 
-export class GetSpendingsQueryDto {
+export class GetSpendingQueryDto {
   @IsString()
   @IsOptional()
+  @ApiProperty({ type: String, required: false })
   readonly startDate: string;
 
   @IsString()
   @IsNotEmpty()
   @ValidateIf((o) => o.startDate)
+  @ApiProperty({ type: String })
   readonly endDate: string;
 }

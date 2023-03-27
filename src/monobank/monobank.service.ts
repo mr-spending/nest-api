@@ -1,20 +1,50 @@
 import { Injectable } from '@nestjs/common';
-import * as firebase from 'firebase-admin';
-import { FirebaseService } from '../firebase/firebase.service';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Guid } from 'typescript-guid';
+const moment = require('moment');
+
 import { CreateMonobankDto } from './dto/create-monobank.dto';
+import { SpendingDto } from '../spending/dto/spending.dto';
+import { Spending, SpendingDocument } from '../spending/schema/spending.schema';
+import { SpendingStatusEnum } from '../shared/enums/enums';
+import { User, UserDocument } from '../user/schema/user.schema';
 
 @Injectable()
 export class MonobankService {
-  private store: firebase.firestore.Firestore;
-  constructor(private firebaseApp: FirebaseService) {
-    this.store = firebaseApp.firestore();
+
+  constructor(
+    @InjectModel(Spending.name) private spendingModel: Model<SpendingDocument>,
+    @InjectModel(User.name) private userModel: Model<UserDocument>
+  ) { }
+
+  async create(monoTransaction: CreateMonobankDto): Promise<any> {
+    const user = await this.userModel
+      .findOne({ 'monoBankAccounts.id': monoTransaction.data.account }, { id: 1 })
+      .exec();
+    if (!user || monoTransaction.data.statementItem.amount > 0) return;
+    const statementItem = monoTransaction.data.statementItem;
+    const spending = {
+      bankId: statementItem.id,
+      accountId: monoTransaction.data.account,
+      amount: Math.abs(statementItem.amount),
+      time: statementItem.time,
+      categoryId: '63e3ca87631b20b10e81bcab',
+      description: statementItem?.comment ? (statementItem.description + ' ' + statementItem.comment) : statementItem.description,
+      date: moment(statementItem.time * 1000).format('YYYY-MM-DD HH:mm:ss'),
+      currencyCode: statementItem.currencyCode,
+      userId: user.id,
+      id: Guid.create().toString(),
+      status: SpendingStatusEnum.Pending
+    } as SpendingDto;
+    return await new this.spendingModel(spending).save();
   }
-  async create(createMonobankDto: CreateMonobankDto) {
-    if (createMonobankDto.data.statementItem.amount > 0) return;
-    await this.store
-      .collection('bufferMonobank')
-      .doc(createMonobankDto.data.statementItem.id)
-      .set(createMonobankDto);
-    return;
+
+  async getTransactions(userId: string) {
+    const user = await this.userModel.findOne({ id: userId }).exec();
+    const accounts = user.monoBankAccounts.map(account => account.id);
+    if (!accounts.length) return [];
+    const data = (await this.spendingModel.find().exec())?.filter(transaction => accounts?.includes(transaction.accountId));
+    return data.length ? data : [];
   }
 }
