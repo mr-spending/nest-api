@@ -1,4 +1,4 @@
-import { IsArray, IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsBoolean, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -13,6 +13,7 @@ export class IconModel {
   @ApiProperty({ type: String })
   background: string;
 }
+
 export class CategoryDto {
   @IsString()
   @IsOptional()
@@ -51,6 +52,18 @@ export class MonoBankAccountDTO {
   @IsNotEmpty()
   @ApiProperty({ type: String })
   type: string;
+}
+
+export class AvailableMonoBankAccountsDTO {
+  @IsNumber()
+  @IsOptional()
+  @ApiProperty({ type: Number })
+  lastUpdateTime: number;
+
+  @IsArray()
+  @IsOptional()
+  @ApiProperty({ type: [MonoBankAccountDTO] })
+  availableAccounts: MonoBankAccountDTO[];
 }
 
 export class UserDto {
@@ -109,4 +122,9 @@ export class UserDto {
   @IsOptional()
   @ApiProperty({ type: String, required: false })
   displayLanguage: string;
+
+  @IsObject()
+  @IsOptional()
+  @ApiProperty({ type: AvailableMonoBankAccountsDTO, required: false })
+  availableMonoBankAccounts: AvailableMonoBankAccountsDTO;
 }
