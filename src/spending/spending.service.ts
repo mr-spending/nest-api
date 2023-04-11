@@ -97,6 +97,12 @@ export class SpendingService {
       .exec();
   }
 
+  async hardDeleteByIds(ids: string[], userId: string): Promise<void> {
+    await this.spendingModel
+      .deleteMany({ userId, id: { $in: ids } })
+      .exec();
+  }
+
   async hardDelete(id: string, userId: string): Promise<void> {
     await this.spendingModel.remove({ id, userId }).exec();
   }

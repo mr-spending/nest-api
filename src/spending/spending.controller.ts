@@ -92,6 +92,15 @@ export class SpendingController {
     await this.spendingService.deleteByIds(ids, req.user.userId);
   }
 
+  @Post('/hard-delete-by-ids')
+  @ApiResponse({ status: HttpStatus.OK })
+  async hardDeleteByIds(
+    @Req() req: { user: UserTokenData },
+    @Body() ids: string[],
+  ): Promise<void> {
+    await this.spendingService.hardDeleteByIds(ids, req.user.userId);
+  }
+
   @Delete('/hard-delete/all-rejected')
   @ApiResponse({ status: HttpStatus.OK })
   async hardDeleteAllRejected(
