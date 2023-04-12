@@ -23,7 +23,7 @@ export class MonobankService {
     const isTransactionAdded = await this.spendingModel
       .find({ bankId: statementItem.id })
       .exec();
-    if (isTransactionAdded || monoTransaction.data.statementItem.amount > 0) return;
+    if (isTransactionAdded.length || monoTransaction.data.statementItem.amount > 0) return;
     const user = await this.userModel
       .findOne({ 'monoBankAccounts.id': monoTransaction.data.account }, { id: 1 })
       .exec();
