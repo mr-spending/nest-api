@@ -19,11 +19,15 @@ export class MonobankService {
   ) { }
 
   async create(monoTransaction: CreateMonobankDto): Promise<any> {
+    const statementItem = monoTransaction.data.statementItem;
+    const isTransactionAdded = await this.spendingModel
+      .find({ bankId: statementItem.id })
+      .exec();
+    if (isTransactionAdded || monoTransaction.data.statementItem.amount > 0) return;
     const user = await this.userModel
       .findOne({ 'monoBankAccounts.id': monoTransaction.data.account }, { id: 1 })
       .exec();
-    if (!user || monoTransaction.data.statementItem.amount > 0) return;
-    const statementItem = monoTransaction.data.statementItem;
+    if (!user) return;
     const spending = {
       bankId: statementItem.id,
       accountId: monoTransaction.data.account,
