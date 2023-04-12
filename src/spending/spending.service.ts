@@ -116,6 +116,7 @@ export class SpendingService {
   @Cron(CronExpression.EVERY_DAY_AT_3AM)
   async removeMonthAndOlderSpending(): Promise<void> {
     const dateBreaker = Math.floor((new Date().getTime() - 2592000000) / 1000);
+
     await this.spendingModel.remove({
       status: SpendingStatusEnum.Rejected,
       removalTime: { $lte: +dateBreaker },
