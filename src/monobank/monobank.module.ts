@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { MessageGateway } from '../gateways/message.gateway';
 
 import { MonobankService } from './monobank.service';
 import { MonobankController } from './monobank.controller';
@@ -16,6 +17,6 @@ import { User, UserSchema } from '../user/schema/user.schema';
     ]),
   ],
   controllers: [MonobankController],
-  providers: [MonobankService],
+  providers: [MonobankService, MessageGateway],
 })
 export class MonobankModule {}

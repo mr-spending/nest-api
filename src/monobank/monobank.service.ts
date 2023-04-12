@@ -7,15 +7,18 @@ const moment = require('moment');
 import { CreateMonobankDto } from './dto/create-monobank.dto';
 import { SpendingDto } from '../spending/dto/spending.dto';
 import { Spending, SpendingDocument } from '../spending/schema/spending.schema';
-import { SpendingStatusEnum } from '../shared/enums/enums';
+import { SpendingStatusEnum, WebSocketMessageEnum } from '../shared/enums/enums';
 import { User, UserDocument } from '../user/schema/user.schema';
+import { MessageGateway } from 'src/gateways/message.gateway';
+import { Server } from 'socket.io';
 
 @Injectable()
 export class MonobankService {
 
   constructor(
     @InjectModel(Spending.name) private spendingModel: Model<SpendingDocument>,
-    @InjectModel(User.name) private userModel: Model<UserDocument>
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    private readonly messageGateway: MessageGateway
   ) { }
 
   async create(monoTransaction: CreateMonobankDto): Promise<any> {
@@ -37,7 +40,15 @@ export class MonobankService {
       id: Guid.create().toString(),
       status: SpendingStatusEnum.Pending
     } as SpendingDto;
-    return await new this.spendingModel(spending).save();
+
+    const savedSpending = await new this.spendingModel(spending).save();
+    this.emitMessage(WebSocketMessageEnum.New);
+    return savedSpending;
+  }
+
+  emitMessage(message: string) {
+    const server: Server = this.messageGateway.server;
+    server.emit(message);
   }
 
   async getTransactions(userId: string) {
