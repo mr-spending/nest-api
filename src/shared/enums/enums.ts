@@ -12,3 +12,7 @@ export enum SpendingStatusEnum {
   Rejected = 'rejected',
   Accepted = 'accepted',
 }
+
+export enum WebSocketMessageEnum {
+  New = 'newTransaction'
+}
