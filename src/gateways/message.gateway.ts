@@ -7,7 +7,7 @@ import { WebSocketMessageEnum } from 'src/shared/enums/enums';
 export class MessageGateway {
 
   @WebSocketServer() server: Server;  
-  private logger: Logger = new Logger('AppGateway');
+  private logger: Logger = new Logger('MessageGateway');
   
   @SubscribeMessage('message')
   public async joinRoom(client: Socket) {
