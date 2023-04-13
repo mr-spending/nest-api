@@ -88,12 +88,15 @@ export class SpendingService {
   async deleteByIds(ids: string[], userId: string): Promise<void> {
     await this.spendingModel
       .updateMany(
-        { userId, id: { $in: ids } },
+        { userId, id: { $in: ids }, status: SpendingStatusEnum.Accepted },
         {
           status: SpendingStatusEnum.Rejected,
           removalTime: Math.floor(new Date().getTime() / 1000),
         },
       )
+      .exec();
+    await this.spendingModel
+      .deleteMany({ userId, id: { $in: ids }, status: SpendingStatusEnum.Pending })
       .exec();
   }
 
@@ -116,6 +119,7 @@ export class SpendingService {
   @Cron(CronExpression.EVERY_DAY_AT_3AM)
   async removeMonthAndOlderSpending(): Promise<void> {
     const dateBreaker = Math.floor((new Date().getTime() - 2592000000) / 1000);
+
     await this.spendingModel.remove({
       status: SpendingStatusEnum.Rejected,
       removalTime: { $lte: +dateBreaker },
