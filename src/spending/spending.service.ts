@@ -88,12 +88,15 @@ export class SpendingService {
   async deleteByIds(ids: string[], userId: string): Promise<void> {
     await this.spendingModel
       .updateMany(
-        { userId, id: { $in: ids } },
+        { userId, id: { $in: ids }, status: SpendingStatusEnum.Accepted },
         {
           status: SpendingStatusEnum.Rejected,
           removalTime: Math.floor(new Date().getTime() / 1000),
         },
       )
+      .exec();
+    await this.spendingModel
+      .deleteMany({ userId, id: { $in: ids }, status: SpendingStatusEnum.Pending })
       .exec();
   }
 
