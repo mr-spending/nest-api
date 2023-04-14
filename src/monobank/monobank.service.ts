@@ -47,7 +47,7 @@ export class MonobankService {
 
     const savedSpending = await new this.spendingModel(spending).save();
     const server: Server = this.messageGateway.server;
-    server.emit(WebSocketMessageEnum.New);
+    server.emit(WebSocketMessageEnum.NewTransaction);
     return savedSpending;
   }
 

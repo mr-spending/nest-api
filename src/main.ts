@@ -4,11 +4,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
 import { iconSwagger } from '../swagger-src/icon';
-import { SocketAdapter } from './web-sockets/socket.adapter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
-  app.useWebSocketAdapter(new SocketAdapter(app));
   app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()

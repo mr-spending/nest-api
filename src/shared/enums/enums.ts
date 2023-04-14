@@ -14,5 +14,5 @@ export enum SpendingStatusEnum {
 }
 
 export enum WebSocketMessageEnum {
-  New = 'newTransaction'
+  NewTransaction = 'newTransaction'
 }

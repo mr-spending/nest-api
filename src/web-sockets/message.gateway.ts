@@ -12,7 +12,7 @@ export class MessageGateway {
   @SubscribeMessage('message')
   public async joinRoom(client: Socket) {
     this.logger.log("messageJoin");
-    client.join(WebSocketMessageEnum.New);
+    client.join(WebSocketMessageEnum.NewTransaction);
   }
 
   afterInit(server: Server) {

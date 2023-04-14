@@ -3,7 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MessageGateway } from '../web-sockets/message.gateway';
 
 import { MonobankService } from './monobank.service';
-import { MonobankController } from './monobank.controller';
+import { MonobankController, TestController } from './monobank.controller';
 import { FirebaseModule } from '../firebase/firebase.module';
 import { Spending, SpendingSchema } from '../spending/schema/spending.schema';
 import { User, UserSchema } from '../user/schema/user.schema';
@@ -16,7 +16,7 @@ import { User, UserSchema } from '../user/schema/user.schema';
       { name: User.name, schema: UserSchema }
     ]),
   ],
-  controllers: [MonobankController],
+  controllers: [MonobankController, TestController],
   providers: [MonobankService, MessageGateway],
 })
 export class MonobankModule {}
