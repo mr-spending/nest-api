@@ -6,16 +6,19 @@ import { WebSocketMessageEnum } from 'src/shared/enums/enums';
 @WebSocketGateway({ cors: true })
 export class MessageGateway {
 
+  constructor() {}
+
   @WebSocketServer() server: Server;  
   private logger: Logger = new Logger('MessageGateway');
   
   @SubscribeMessage('message')
-  public async joinRoom(client: Socket) {
+  public async joinRoom(client: Socket, userName: string) {
     this.logger.log("messageJoin");
     client.join(WebSocketMessageEnum.NewTransaction);
+    this.server.emit('newTransaction', userName);
   }
 
-  afterInit(server: Server) {
+  afterInit() {
     this.logger.log('Init');
   }
 

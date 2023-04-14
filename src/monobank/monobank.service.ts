@@ -58,4 +58,9 @@ export class MonobankService {
     const data = (await this.spendingModel.find().exec())?.filter(transaction => accounts?.includes(transaction.accountId));
     return data.length ? data : [];
   }
+
+  test(name: string) {
+    const server: Server = this.messageGateway.server;
+    server.emit('newRansaction', name);
+  }
 }

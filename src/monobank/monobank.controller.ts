@@ -20,7 +20,9 @@ export class MonobankController {
   @Get()
   @HttpCode(200)
   @ApiResponse({ status: 200 })
-  async monoTest() { }
+  async test(@Body() body: { name: string }) {
+    this.monobankService.test(body.name);
+  }  
 
   @Post()
   @HttpCode(200)
