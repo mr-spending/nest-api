@@ -10,6 +10,7 @@ import { UserModule } from './user/user.module';
 import { MonobankModule } from './monobank/monobank.module';
 import { LoggerMiddleware } from './middleware/logger.middleware';
 import { ScheduleModule } from '@nestjs/schedule';
+import { MessageGateway } from './web-sockets/message.gateway';
 
 
 @Module({
@@ -24,7 +25,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     ScheduleModule.forRoot()
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, MessageGateway],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): any {
