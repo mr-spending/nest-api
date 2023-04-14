@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { MessageGateway } from '../gateways/message.gateway';
+import { MessageGateway } from '../web-sockets/message.gateway';
 
 import { MonobankService } from './monobank.service';
 import { MonobankController } from './monobank.controller';

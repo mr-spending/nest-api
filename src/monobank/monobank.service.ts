@@ -9,7 +9,7 @@ import { SpendingDto } from '../spending/dto/spending.dto';
 import { Spending, SpendingDocument } from '../spending/schema/spending.schema';
 import { SpendingStatusEnum, WebSocketMessageEnum } from '../shared/enums/enums';
 import { User, UserDocument } from '../user/schema/user.schema';
-import { MessageGateway } from 'src/gateways/message.gateway';
+import { MessageGateway } from 'src/web-sockets/message.gateway';
 import { Server } from 'socket.io';
 
 @Injectable()
