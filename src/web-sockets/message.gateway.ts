@@ -10,14 +10,14 @@ export class MessageGateway {
 
   @WebSocketServer() server: Server;  
   private logger: Logger = new Logger('MessageGateway');
-  
+
   @SubscribeMessage('message')
-  public async joinRoom(client: Socket, userName: string) {
+  handleEvent(client: Socket, message: string): void {
     this.logger.log("messageJoin");
     client.join(WebSocketMessageEnum.NewTransaction);
-    this.server.emit('newTransaction', userName);
+    this.server.emit('newTransaction', message)
   }
-
+  
   afterInit() {
     this.logger.log('Init');
   }
