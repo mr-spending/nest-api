@@ -93,6 +93,9 @@ export class User {
   @Prop({ type: String, required: false })
   displayLanguage?: string;
 
+  @Prop({ type: Boolean, required: true })
+  isPolicyAgreed: boolean;
+
   @Prop({ type: AvailableMonoBankAccountsSchema, required: false })
   availableMonoBankAccounts?: AvailableMonoBankAccounts[];
 
