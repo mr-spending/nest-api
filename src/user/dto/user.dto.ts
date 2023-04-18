@@ -97,6 +97,11 @@ export class UserDto {
   @ApiProperty({ type: String, required: false })
   displayName: string;
 
+  @IsBoolean()
+  @IsNotEmpty()
+  @ApiProperty({ type: Boolean })
+  isPolicyAgreed: boolean;
+
   @IsString()
   @IsOptional()
   @ApiProperty({ type: String, required: false })
