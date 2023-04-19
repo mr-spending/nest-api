@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  Req,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { UserService } from './user.service';
@@ -15,19 +25,19 @@ export class UserController {
   /** USER **/
 
   @Post()
-  @ApiResponse({ status: 201, type: UserDto })
+  @ApiResponse({ status: HttpStatus.CREATED, type: UserDto })
   async create(@Body() createUserDto: UserDto): Promise<User> {
     return await this.userService.create(createUserDto);
   }
 
   @Get(':id')
-  @ApiResponse({ status: 200, type: UserDto })
+  @ApiResponse({ status: HttpStatus.OK, type: UserDto })
   async findOne(@Param('id') id: string): Promise<User> {
     return await this.userService.findOne(id);
   }
 
   @Patch()
-  @ApiResponse({ status: 200, type: UserDto })
+  @ApiResponse({ status: HttpStatus.OK, type: UserDto })
   async update(
     @Req() req: { user: UserTokenData },
     @Body() payload: UserDto,
@@ -38,28 +48,34 @@ export class UserController {
   /** USER CATEGORIES **/
 
   @Post('/categories')
-  @ApiResponse({ status: 201, type: CategoryDto })
+  @ApiResponse({ status: HttpStatus.CREATED, type: CategoryDto })
   async createCategory(
     @Req() req: { user: UserTokenData },
-    @Body() createCategoryDto: CategoryDto
+    @Body() createCategoryDto: CategoryDto,
   ): Promise<User> {
-    return await this.userService.createCategory(req.user.userId, createCategoryDto);
+    return await this.userService.createCategory(
+      req.user.userId,
+      createCategoryDto,
+    );
   }
 
   @Patch('/categories')
-  @ApiResponse({ status: 200, type: CategoryDto })
+  @ApiResponse({ status: HttpStatus.OK, type: CategoryDto })
   async updateCategory(
     @Req() req: { user: UserTokenData },
     @Body() updateCategoryDto: CategoryDto,
   ): Promise<User> {
-    return await this.userService.updateCategory(updateCategoryDto, req.user.userId);
+    return await this.userService.updateCategory(
+      updateCategoryDto,
+      req.user.userId,
+    );
   }
 
   @Delete('/categories/:id')
-  @ApiResponse({ status: 200 })
+  @ApiResponse({ status: HttpStatus.OK })
   async removeCategory(
     @Req() req: { user: UserTokenData },
-    @Param('id') id: string
+    @Param('id') id: string,
   ): Promise<any> {
     await this.userService.removeCategory(id, req.user.userId);
   }
