@@ -5,17 +5,14 @@ import {
   RequestMethod,
 } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ScheduleModule } from '@nestjs/schedule';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { PreAuthMiddleware } from './firebase/pre-auth.middleware';
 import { SpendingModule } from './spending/spending.module';
 import { FirebaseModule } from './firebase/firebase.module';
 import { UserModule } from './user/user.module';
 import { MonobankModule } from './monobank/monobank.module';
 import { LoggerMiddleware } from './middleware/logger.middleware';
-import { ScheduleModule } from '@nestjs/schedule';
-import { AppGateway } from './websocket-gateway/websocket-gateway.gateway';
 
 @Module({
   imports: [
@@ -28,8 +25,8 @@ import { AppGateway } from './websocket-gateway/websocket-gateway.gateway';
     ),
     ScheduleModule.forRoot(),
   ],
-  controllers: [AppController],
-  providers: [AppService, AppGateway],
+  controllers: [],
+  providers: [],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): any {

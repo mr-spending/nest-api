@@ -6,7 +6,6 @@ import { MonobankController } from './monobank.controller';
 import { FirebaseModule } from '../firebase/firebase.module';
 import { Spending, SpendingSchema } from '../spending/schema/spending.schema';
 import { User, UserSchema } from '../user/schema/user.schema';
-import { AppGateway } from '../websocket-gateway/websocket-gateway.gateway';
 
 @Module({
   imports: [
@@ -17,6 +16,6 @@ import { AppGateway } from '../websocket-gateway/websocket-gateway.gateway';
     ]),
   ],
   controllers: [MonobankController],
-  providers: [MonobankService, AppGateway],
+  providers: [MonobankService],
 })
 export class MonobankModule {}

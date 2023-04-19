@@ -9,15 +9,12 @@ import { SpendingDto } from '../spending/dto/spending.dto';
 import { Spending, SpendingDocument } from '../spending/schema/spending.schema';
 import { SpendingStatusEnum } from '../shared/enums/enums';
 import { User, UserDocument } from '../user/schema/user.schema';
-import { AppGateway } from '../websocket-gateway/websocket-gateway.gateway';
-import { Server } from 'socket.io';
 
 @Injectable()
 export class MonobankService {
   constructor(
     @InjectModel(Spending.name) private spendingModel: Model<SpendingDocument>,
     @InjectModel(User.name) private userModel: Model<UserDocument>,
-    private gateway: AppGateway,
   ) {}
 
   async create(monoTransaction: CreateMonobankDto): Promise<any> {
@@ -63,10 +60,5 @@ export class MonobankService {
       (transaction) => accounts?.includes(transaction.accountId),
     );
     return data.length ? data : [];
-  }
-
-  test(name: string) {
-    const server: Server = this.gateway.server;
-    server.emit('patientList', name);
   }
 }
