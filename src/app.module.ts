@@ -13,6 +13,7 @@ import { FirebaseModule } from './firebase/firebase.module';
 import { UserModule } from './user/user.module';
 import { MonobankModule } from './monobank/monobank.module';
 import { LoggerMiddleware } from './middleware/logger.middleware';
+import { mongoDbUri } from '../settings/main.settings';
 
 @Module({
   imports: [
@@ -20,9 +21,7 @@ import { LoggerMiddleware } from './middleware/logger.middleware';
     SpendingModule,
     UserModule,
     MonobankModule,
-    MongooseModule.forRoot(
-      'mongodb+srv://mrSpending:mrSpending@cluster0.ozrqavn.mongodb.net/mr-spending-db?retryWrites=true&w=majority',
-    ),
+    MongooseModule.forRoot(mongoDbUri),
     ScheduleModule.forRoot(),
   ],
   controllers: [],

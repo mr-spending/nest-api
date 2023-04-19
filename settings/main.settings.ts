@@ -1,6 +1,8 @@
 import { SwaggerCustomOptions } from '@nestjs/swagger';
 
 export const listenPort = 3500;
+export const mongoDbUri =
+  'mongodb+srv://mrSpending:mrSpending@cluster0.ozrqavn.mongodb.net/mr-spending-db?retryWrites=true&w=majority';
 export const swaggerPath = 'api';
 export const swaggerDocumentConfig = {
   title: 'Spending app',
