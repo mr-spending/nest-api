@@ -7,7 +7,7 @@ import {
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
 
-import { PreAuthMiddleware } from './firebase/pre-auth.middleware';
+import { PreAuthMiddleware } from './middleware/pre-auth.middleware';
 import { SpendingModule } from './spending/spending.module';
 import { FirebaseModule } from './firebase/firebase.module';
 import { UserModule } from './user/user.module';

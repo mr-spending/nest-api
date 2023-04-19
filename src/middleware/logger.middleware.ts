@@ -9,11 +9,13 @@ export class LoggerMiddleware implements NestMiddleware {
     this.logger.log(
       '',
       '/////////////////////////////////////////////////////////////////////////////////////////////',
-      `Logging HTTP request ${req.method} ${req.baseUrl + req.url} ${res.statusCode}`,
+      `Logging HTTP request ${req.method} ${req.baseUrl + req.url} ${
+        res.statusCode
+      }`,
       '---------------------------------------------------------------------------------------------',
       `REQ BODY: ${reqBody}`,
       '/////////////////////////////////////////////////////////////////////////////////////////////',
-      ''
+      '',
     );
     next();
   }
