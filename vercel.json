@@ -16,6 +16,14 @@
       "headers": [
         { "key": "Access-Control-Allow-Origin", "value": "*" }
       ]
+    },
+    {
+      "source": "/socket.io",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Connection", "value": "Upgrade" },
+        { "key": "Upgrade", "value": "websocket" }
+      ]
     }
   ]
 }
