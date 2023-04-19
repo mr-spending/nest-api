@@ -12,7 +12,7 @@ import { User, UserSchema } from '../user/schema/user.schema';
     FirebaseModule,
     MongooseModule.forFeature([
       { name: Spending.name, schema: SpendingSchema },
-      { name: User.name, schema: UserSchema }
+      { name: User.name, schema: UserSchema },
     ]),
   ],
   controllers: [SpendingController],
