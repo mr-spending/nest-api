@@ -4,20 +4,20 @@ import { Model } from 'mongoose';
 import { Guid } from 'typescript-guid';
 const moment = require('moment');
 
-import { CreateMonobankDto } from './dto/create-monobank.dto';
+import { CreateMonoBankDto } from './dto/create-mono-bank.dto';
 import { SpendingDto } from '../spending/dto/spending.dto';
 import { Spending, SpendingDocument } from '../spending/schema/spending.schema';
 import { SpendingStatusEnum } from '../shared/enums/enums';
 import { User, UserDocument } from '../user/schema/user.schema';
 
 @Injectable()
-export class MonobankService {
+export class MonoBankService {
   constructor(
     @InjectModel(Spending.name) private spendingModel: Model<SpendingDocument>,
     @InjectModel(User.name) private userModel: Model<UserDocument>,
   ) {}
 
-  async create(monoTransaction: CreateMonobankDto): Promise<any> {
+  async create(monoTransaction: CreateMonoBankDto): Promise<any> {
     const statementItem = monoTransaction.data.statementItem;
     const isTransactionAdded = await this.spendingModel
       .find({ bankId: statementItem.id })

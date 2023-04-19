@@ -46,7 +46,7 @@ export class MonoBankDataDto {
   statementItem: StatementItemDto;
 }
 
-export class CreateMonobankDto {
+export class CreateMonoBankDto {
   @IsNotEmpty()
   @Type(() => MonoBankDataDto)
   @ApiProperty({ type: MonoBankDataDto })

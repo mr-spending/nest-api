@@ -11,7 +11,7 @@ import { PreAuthMiddleware } from './middleware/pre-auth.middleware';
 import { SpendingModule } from './spending/spending.module';
 import { FirebaseModule } from './firebase/firebase.module';
 import { UserModule } from './user/user.module';
-import { MonobankModule } from './monobank/monobank.module';
+import { MonoBankModule } from './monobank/mono-bank.module';
 import { LoggerMiddleware } from './middleware/logger.middleware';
 import { mongoDbUri } from '../settings/main.settings';
 
@@ -20,7 +20,7 @@ import { mongoDbUri } from '../settings/main.settings';
     FirebaseModule,
     SpendingModule,
     UserModule,
-    MonobankModule,
+    MonoBankModule,
     MongooseModule.forRoot(mongoDbUri),
     ScheduleModule.forRoot(),
   ],
