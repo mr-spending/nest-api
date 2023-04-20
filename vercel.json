@@ -5,6 +5,10 @@
     {
       "src": "src/main.ts",
       "use": "@vercel/node"
+    },
+    {
+      "src": "src/web-sockets/message.gateway.ts",
+      "use": "@vercel/node"
     }
   ],
   "rewrites": [
