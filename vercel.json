@@ -26,7 +26,10 @@
       "headers": [
         { "key": "Access-Control-Allow-Origin", "value": "*" },
         { "key": "Connection", "value": "Upgrade" },
-        { "key": "Upgrade", "value": "websocket" }
+        { "key": "Upgrade", "value": "websocket" },
+        { "key": "Sec-WebSocket-Version", "value": "13" },
+        { "key": "Sec-WebSocket-Protocol", "value": "chat, superchat" },
+        { "key": "Sec-WebSocket-Accept", "value": "$1" }
       ]
     }
   ]
