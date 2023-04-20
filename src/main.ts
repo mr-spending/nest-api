@@ -4,10 +4,12 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
 import { iconSwagger } from '../swagger-src/icon';
+import { SocketIoAdapter } from './web-sockets/socket-io.adapter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
   app.useGlobalPipes(new ValidationPipe());
+  app.useWebSocketAdapter(new SocketIoAdapter(app));
 
   const config = new DocumentBuilder()
     .setTitle('Spending app')
