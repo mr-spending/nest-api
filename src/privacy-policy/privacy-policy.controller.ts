@@ -10,7 +10,7 @@ export class PrivacyPolicyController {
   @Get()
   getPrivacyPolicy(@Res() res: Response): void {
     res.sendFile(
-      path.join(__dirname, '../../../', 'files/privacy-policy/index.html')
+      path.join(process.cwd(), 'files/privacy-policy/index.html')
     );
   }
 }
