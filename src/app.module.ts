@@ -14,7 +14,7 @@ import { UserModule } from './user/user.module';
 import { MonoBankModule } from './monobank/mono-bank.module';
 import { LoggerMiddleware } from './middleware/logger.middleware';
 import { mongoDbUri } from '../settings/main.settings';
-import { PrivacyPolicyModule } from './privacy-policy/privacy-policy.module';
+import { DocumentsModule } from './documents/documents.module';
 
 @Module({
   imports: [
@@ -22,7 +22,7 @@ import { PrivacyPolicyModule } from './privacy-policy/privacy-policy.module';
     SpendingModule,
     UserModule,
     MonoBankModule,
-    PrivacyPolicyModule,
+    DocumentsModule,
     MongooseModule.forRoot(mongoDbUri),
     ScheduleModule.forRoot(),
   ],
@@ -47,9 +47,9 @@ export class AppModule implements NestModule {
           method: RequestMethod.ALL,
         },
         {
-          path: '/privacy-policy',
+          path: '/documents/(.*)',
           method: RequestMethod.GET,
-        }
+        },
       )
       .forRoutes({
         path: '/*',

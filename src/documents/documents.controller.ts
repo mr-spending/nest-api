@@ -2,15 +2,12 @@ import { Controller, Get, Res } from '@nestjs/common';
 import { Response } from 'express';
 import * as path from 'path';
 
-
-@Controller('privacy-policy')
-export class PrivacyPolicyController {
+@Controller('documents')
+export class DocumentsController {
   constructor() {}
 
-  @Get()
+  @Get('/privacy-policy')
   getPrivacyPolicy(@Res() res: Response): void {
-    res.sendFile(
-      path.join(process.cwd(), 'files/privacy-policy/index.html')
-    );
+    res.sendFile(path.join(process.cwd(), 'files/privacy-policy/index.html'));
   }
 }
