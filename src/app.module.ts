@@ -48,7 +48,7 @@ export class AppModule implements NestModule {
         },
         {
           path: '/documents/(.*)',
-          method: RequestMethod.GET,
+          method: RequestMethod.ALL,
         },
       )
       .forRoutes({

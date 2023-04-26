@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mr. Spending's support team</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body style="padding: 0 30px 20px 30px">
+  <h2 style="text-align: center;">Get in touch with support team</h2>
+  <form id="request-form" style="margin: 0 auto; max-width: 320px">
+    <div style="margin-top: 15px">
+      <label style="display: inline-block; margin-bottom: 5px" for="title">Title:</label>
+      <input style="padding: 4px 8px; width: 100%" type="text" id="title" name="title">
+    </div>
+    <div style="margin-top: 15px">
+      <label style="display: inline-block; margin-bottom: 5px" for="email">Your Email:</label>
+      <input style="padding: 4px 8px; width: 100%" type="email" id="email" name="email">
+    </div>
+    <div style="margin-top: 15px">
+      <label style="display: inline-block; margin-bottom: 5px" for="message">Message:</label><br>
+      <textarea rows="7" style="padding: 4px 8px; width: 100%; max-width: 320px" id="message" name="message"></textarea>
+    </div>
+
+    <input style="padding: 4px 8px; margin-top: 15px;" type="submit" value="Submit">
+  </form>
+
+  <p style="margin: 40px auto 0; text-align: center; max-width: 320px" id="response"></p>
+
+  <script>
+    const form = document.getElementById('request-form');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(form);
+
+      const title = formData.get('title');
+      const email = formData.get('email');
+      const message = formData.get('message');
+
+      // Do something with the form data
+      console.log(`Name: ${title}`);
+      console.log(`Email: ${email}`);
+      console.log(`Message: ${message}`);
+
+      fetch('http://localhost:3500/documents/massage-to-support', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, email, message })
+      })
+        .then(response => response.text())
+        .then(data => {
+          const responseElement = document.getElementById('response');
+          responseElement.innerHTML = data;
+          document.getElementById('request-form').remove();
+        })
+        .catch(error => console.error(error));
+    });
+  </script>
+</body>
+</html>
