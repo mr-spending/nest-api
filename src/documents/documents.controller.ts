@@ -10,11 +10,12 @@ import {
 import { Response } from 'express';
 import * as path from 'path';
 import { ApiResponse } from '@nestjs/swagger';
-import { UserTokenData } from '../shared/interfaces/user';
+import { MailerService } from '@nestjs-modules/mailer';
+import { sendGridParams } from '../../settings/main.settings';
 
 @Controller('documents')
 export class DocumentsController {
-  constructor() {}
+  constructor(private mailService: MailerService) {}
 
   @Get('/privacy-policy')
   getPrivacyPolicy(@Res() res: Response): void {
@@ -28,10 +29,15 @@ export class DocumentsController {
 
   @Post('/massage-to-support')
   @ApiResponse({ status: HttpStatus.OK })
-  massageToSupport(
+  async massageToSupport(
     @Body() body: any,
-  ): string {
-    console.log(body);
+  ): Promise<string> {
+    await this.mailService.sendMail({
+      to: sendGridParams.getterMail,
+      from: sendGridParams.senderMail,
+      subject: body.title + ' from ' + body.email,
+      text: body.message,
+    });
     return `
       <h3>Message successfully sent, thank you!</h3>
       <p>The support team will review your request and respond to the specified email: ${body.email}</p>

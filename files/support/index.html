@@ -40,12 +40,7 @@
       const email = formData.get('email');
       const message = formData.get('message');
 
-      // Do something with the form data
-      console.log(`Name: ${title}`);
-      console.log(`Email: ${email}`);
-      console.log(`Message: ${message}`);
-
-      fetch('http://localhost:3500/documents/massage-to-support', {
+      fetch('https://nest-api-mr-spending.vercel.app/documents/massage-to-support', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, email, message })

@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 import { PreAuthMiddleware } from './middleware/pre-auth.middleware';
 import { SpendingModule } from './spending/spending.module';
@@ -13,7 +14,7 @@ import { FirebaseModule } from './firebase/firebase.module';
 import { UserModule } from './user/user.module';
 import { MonoBankModule } from './monobank/mono-bank.module';
 import { LoggerMiddleware } from './middleware/logger.middleware';
-import { mongoDbUri } from '../settings/main.settings';
+import { mongoDbUri, sendGridParams } from '../settings/main.settings';
 import { DocumentsModule } from './documents/documents.module';
 
 @Module({
@@ -25,6 +26,15 @@ import { DocumentsModule } from './documents/documents.module';
     DocumentsModule,
     MongooseModule.forRoot(mongoDbUri),
     ScheduleModule.forRoot(),
+    MailerModule.forRoot({
+      transport: {
+        host: sendGridParams.host,
+        auth: {
+          user: sendGridParams.user,
+          pass: sendGridParams.pass,
+        },
+      }
+    }),
   ],
   controllers: [],
   providers: [],
