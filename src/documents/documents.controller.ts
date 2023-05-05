@@ -1,21 +1,19 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpStatus,
-  Post,
-  Req,
-  Res,
-} from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 import * as path from 'path';
 import { ApiResponse } from '@nestjs/swagger';
 import { MailerService } from '@nestjs-modules/mailer';
+
 import { sendGridParams } from '../../settings/main.settings';
 
 @Controller('documents')
 export class DocumentsController {
   constructor(private mailService: MailerService) {}
+
+  @Get('/delete-account')
+  getDeleteAccount(@Res() res: Response): void {
+    res.sendFile(path.join(process.cwd(), 'files/delete-account/index.html'));
+  }
 
   @Get('/privacy-policy')
   getPrivacyPolicy(@Res() res: Response): void {
@@ -29,9 +27,7 @@ export class DocumentsController {
 
   @Post('/massage-to-support')
   @ApiResponse({ status: HttpStatus.OK })
-  async massageToSupport(
-    @Body() body: any,
-  ): Promise<string> {
+  async massageToSupport(@Body() body: any): Promise<string> {
     await this.mailService.sendMail({
       to: sendGridParams.getterMail,
       from: sendGridParams.senderMail,

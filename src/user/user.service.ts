@@ -6,12 +6,14 @@ import { Guid } from 'typescript-guid';
 import { User, UserDocument } from './schema/user.schema';
 import { CategoryDto, UserDto } from './dto/user.dto';
 import { Spending, SpendingDocument } from '../spending/schema/spending.schema';
+import { FirebaseService } from '../firebase/firebase.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     @InjectModel(Spending.name) private spendingModel: Model<SpendingDocument>,
+    private firebaseApp: FirebaseService
   ) {}
 
   async create(user: UserDto): Promise<User> {
@@ -24,6 +26,17 @@ export class UserService {
 
   async update(id: string, payload: UserDto): Promise<User> {
     return await this.userModel.findOneAndUpdate({ id }, payload).exec();
+  }
+
+  async delete(userId: string): Promise<void> {
+    await this.userModel
+      .deleteOne({ id: userId })
+      .exec();
+    await this.spendingModel
+      .deleteMany({ userId })
+      .exec();
+    return await this.firebaseApp
+      .deleteUser(userId);
   }
 
   async createCategory(id: string, payload: CategoryDto): Promise<User> {

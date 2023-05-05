@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { of } from 'rxjs';
 
 import * as firebase from 'firebase-admin';
 import firebaseConfig from './firebase-config';
@@ -18,4 +17,8 @@ export class FirebaseService {
   getAuth = (): firebase.auth.Auth => {
     return this.firebaseApp.auth();
   };
+
+  deleteUser(id: string): Promise<any> {
+    return this.getAuth().deleteUser(id);
+  }
 }
