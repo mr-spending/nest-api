@@ -1,6 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
-import { Response } from 'express';
-import * as path from 'path';
+import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { MailerService } from '@nestjs-modules/mailer';
 
@@ -10,33 +8,18 @@ import { sendGridParams } from '../../settings/main.settings';
 export class DocumentsController {
   constructor(private mailService: MailerService) {}
 
-  @Get('/delete-account')
-  getDeleteAccount(@Res() res: Response): void {
-    res.sendFile(path.join(process.cwd(), 'files/delete-account/index.html'));
-  }
-
-  @Get('/privacy-policy')
-  getPrivacyPolicy(@Res() res: Response): void {
-    res.sendFile(path.join(process.cwd(), 'files/privacy-policy/index.html'));
-  }
-
-  @Get('/support')
-  support(@Res() res: Response): void {
-    res.sendFile(path.join(process.cwd(), 'files/support/index.html'));
-  }
-
   @Post('/massage-to-support')
   @ApiResponse({ status: HttpStatus.OK })
-  async massageToSupport(@Body() body: any): Promise<string> {
+  async massageToSupport(@Body() body: any): Promise<string[]> {
     await this.mailService.sendMail({
       to: sendGridParams.getterMail,
       from: sendGridParams.senderMail,
       subject: body.title + ' from ' + body.email,
       text: body.message,
     });
-    return `
-      <h3>Message successfully sent, thank you!</h3>
-      <p>The support team will review your request and respond to the specified email: ${body.email}</p>
-    `;
+    return [
+      'Message successfully sent, thank you!',
+      `The support team will review your request and respond to the specified email: ${body.email}`
+    ];
   }
 }
