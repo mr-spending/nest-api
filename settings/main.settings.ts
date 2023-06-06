@@ -1,8 +1,13 @@
 import { SwaggerCustomOptions } from '@nestjs/swagger';
 
+const DB = {
+  prod: 'mongodb+srv://mrSpending:mrSpending@cluster0.ozrqavn.mongodb.net/mr-spending-db?retryWrites=true&w=majority',
+  dev_v2: 'mongodb+srv://mrSpending:mrSpending@cluster0.ozrqavn.mongodb.net/mr-spending-db-dev-v2?retryWrites=true&w=majority',
+};
+
 export const listenPort = 3500;
 
-export const mongoDbUri = 'mongodb+srv://mrSpending:mrSpending@cluster0.ozrqavn.mongodb.net/mr-spending-db?retryWrites=true&w=majority';
+export const mongoDbUri = DB.dev_v2;
 
 export const swaggerPath = 'api';
 
@@ -30,4 +35,4 @@ export const sendGridParams = {
   pass: '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',
   senderMail: 'mr.spending.service@gmail.com',
   getterMail: 'kovalovy76@gmail.com',
-}
+};

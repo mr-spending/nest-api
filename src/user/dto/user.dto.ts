@@ -37,6 +37,11 @@ export class CategoryDto {
   @Type(() => IconModel)
   @ApiProperty({ type: IconModel })
   icon: IconModel;
+
+  @IsBoolean()
+  @IsOptional()
+  @ApiProperty({ type: Boolean })
+  isBase?: boolean;
 }
 
 export class MonoBankAccountDTO {

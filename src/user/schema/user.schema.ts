@@ -50,6 +50,9 @@ export class UserCategories {
   @Prop({ type: IconSchema, required: true })
   icon: Icon;
 
+  @Prop({ type: Boolean, required: false })
+  isBase: boolean;
+
   @Prop({ type: Number, select: false })
   __v: number;
 

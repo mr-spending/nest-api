@@ -7,6 +7,7 @@ import { User, UserDocument } from './schema/user.schema';
 import { CategoryDto, UserDto } from './dto/user.dto';
 import { Spending, SpendingDocument } from '../spending/schema/spending.schema';
 import { FirebaseService } from '../firebase/firebase.service';
+import { categoriesConstant } from '../shared/constants/categories.constants';
 
 @Injectable()
 export class UserService {
@@ -17,7 +18,7 @@ export class UserService {
   ) {}
 
   async create(user: UserDto): Promise<User> {
-    return await new this.userModel(user).save();
+    return await new this.userModel({ ...user, categories: categoriesConstant }).save();
   }
 
   async findOne(id: string): Promise<User> {
