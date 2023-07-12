@@ -7,7 +7,7 @@ const DB = {
 
 export const listenPort = 3500;
 
-export const mongoDbUri = DB.prod;
+export const mongoDbUri = DB.dev_v2;
 
 export const swaggerPath = 'api';
 
