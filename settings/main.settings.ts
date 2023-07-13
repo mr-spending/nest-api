@@ -1,13 +1,12 @@
 import { SwaggerCustomOptions } from '@nestjs/swagger';
 
 const DB = {
-  prod: 'mongodb+srv://mrSpending:mrSpending@cluster0.ozrqavn.mongodb.net/mr-spending-db?retryWrites=true&w=majority',
-  dev_v2: 'mongodb+srv://mrSpending:mrSpending@cluster0.ozrqavn.mongodb.net/mr-spending-db-dev-v2?retryWrites=true&w=majority',
+  prod: 'mongodb+srv://mrSpending:mrSpending@cluster0.ozrqavn.mongodb.net/mr-spending-db?retryWrites=true&w=majority'
 };
 
 export const listenPort = 3500;
 
-export const mongoDbUri = DB.dev_v2;
+export const mongoDbUri = DB.prod;
 
 export const swaggerPath = 'api';
 
